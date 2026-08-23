@@ -1,5 +1,4 @@
 import Nav from "./components/Nav"
-import SignUpForm from "./pages/SignUpForm"
 import './App.css'
 import { Routes, Route } from "react-router"
 import { useState } from "react"
@@ -24,7 +23,6 @@ const App = () => {
       <Nav user={user} setUser={setUser} />
       <main className="app-main">
         <Routes>
-          <Route path='/sign-up' element={<SignUpForm setUser={setUser} />} />
           <Route path='/sign-in' element={<SignInForm setUser={setUser} />} />
           <Route path="/" element={user ? <Dashboard user={user} /> : <Landing />} />
         </Routes>
