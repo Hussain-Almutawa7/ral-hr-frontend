@@ -1,10 +1,10 @@
-import Nav from "./components/layout/Nav"
 import './App.css'
 import { Routes, Route } from "react-router"
 import { useState } from "react"
 import Landing from "./pages/Landing"
 import Dashboard from "./pages/dashboard/Dashboard";
 import SignInForm from "./pages/auth/SignInForm";
+import Layout from "./components/layout/Layout";
 
 const getUserFromToken = () => {
   const token = localStorage.getItem('token')
@@ -20,13 +20,19 @@ const App = () => {
 
   return (
     <>
-      <Nav user={user} setUser={setUser} />
-      <main className="app-main">
-        <Routes>
-          <Route path='/sign-in' element={<SignInForm setUser={setUser} />} />
-          <Route path="/" element={user ? <Dashboard user={user} /> : <Landing />} />
-        </Routes>
-      </main>
+      <Routes>
+        <Route path="/sign-in" element={<SignInForm setUser={setUser} />} />
+        
+        {user && (
+          <Route element={<Layout user={user} setUser={setUser} />}>
+            <Route path="/" element={<Dashboard user={user} />} />
+          </Route>
+        )}
+
+        {!user && (
+          <Route path="/" element={<Landing />} />
+        )}
+      </Routes>
     </>
   )
 }

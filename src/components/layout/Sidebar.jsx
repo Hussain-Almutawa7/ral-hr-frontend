@@ -1,17 +1,37 @@
-import { Link } from "react-router";
+import { NavLink } from "react-router";
+import logo from "../../assets/branding/RAL-logo-white-transparent.png";
 
-const Sidebar = () => {
+const Sidebar = ({ user }) => {
     return (
         <aside className="sidebar">
-            <div className="sidebar-brand">RAL HR</div>
+            <div className="sidebar-brand">
+                <img src={logo} alt="RAL Technologies" className="sidebar-logo" />
+            </div>
 
             <nav className="sidebar-nav">
-                <Link to="/dashboard">Dashboard</Link>
-                <Link to="/employees">Employees</Link>
-                <Link to="/attendance">Attendance</Link>
-                <Link to="/leave">Leave</Link>
-                <Link to="/documents">Documents</Link>
-                <Link to="/settings">Settings</Link>
+                <NavLink to="/" end className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                    Dashboard
+                </NavLink>
+
+                <NavLink to="/employees" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                    Employees
+                </NavLink>
+
+                <NavLink to="/attendance" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                    Attendance
+                </NavLink>
+
+                <NavLink to="/leave" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                    Leave
+                </NavLink>
+
+                <NavLink to="/documents" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                    Documents
+                </NavLink>
+
+                <NavLink to="/settings" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                    Settings
+                </NavLink>
             </nav>
         </aside>
     );
