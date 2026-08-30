@@ -1,0 +1,25 @@
+:root {
+    /* RAL Brand */
+    --color-ink: #2B1B3D;
+    --color-lavender: #D1C4E9;
+    --color-mid: #59476B;
+    --color-soft: #7F6D91;
+    --color-card: #F5F2F9;
+    --color-rule: #DBD1E8;
+
+    /* Status */
+    --color-success: #1F7A54;
+    --color-warning: #A8631B;
+    --color-danger: #A32F2F;
+
+    /* Base */
+    --color-white: #FFFFFF;
+    --color-background: #FFFFFF;
+
+    /* Typography */
+    --font-latin: "Inter", Arial, sans-serif;
+    --font-arabic: "Noto Sans Arabic", Arial, sans-serif;
+
+    /* Common UI */
+    --border-radius: 8px;
+}
