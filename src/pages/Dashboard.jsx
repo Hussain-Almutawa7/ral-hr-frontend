@@ -20,9 +20,9 @@ function Dashboard({ user }) {
 
     return (
         <>
-            <h1>Hello {user.username}</h1>
+            <h1>Hello {user.email}</h1>
             {users.map(user => (
-                <p className="display" key={user._id}>Username: {user.username}</p>
+                <p className="display" key={user._id}>Email: {user.email}</p>
             ))}
         </>
     )

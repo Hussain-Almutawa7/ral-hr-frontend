@@ -13,7 +13,7 @@ const Nav = (props) => {
             <Link className="nav-brand" to="/">App Nascme</Link>
             {props.user ? (
                 <ul>
-                    <li>Welcome, {props.user.username}!</li>
+                    <li>Welcome, {props.user.email}!</li>
                     <li>
                         <Link to="/" onClick={handleSignOut}>Sign Out</Link>
                     </li>
