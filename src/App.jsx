@@ -1,4 +1,4 @@
-import Nav from "./components/Nav"
+import Nav from "./components/layout/Nav"
 import './App.css'
 import { Routes, Route } from "react-router"
 import { useState } from "react"
