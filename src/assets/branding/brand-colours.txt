@@ -1,0 +1,27 @@
+RAL brand palette
+=================
+
+Core
+  Ink       #2B1B3D    primary: backgrounds, headings, buttons
+  Lavender  #D1C4E9    accent: text and highlights on dark
+  Mid       #59476B    body text on white
+  Soft      #7F6D91    labels, captions, hints
+  Card      #F5F2F9    panel and callout backgrounds
+  Rule      #DBD1E8    borders and separators
+
+Status (app only, always paired with a word or an icon)
+  Green     #1F7A54    approved, verified, on time, paid
+  Amber     #A8631B    pending, late, expiring soon, needs review
+  Red       #A32F2F    rejected, absent, expired, failed validation
+
+Type
+  Latin     SF Pro Display, or Inter as the free substitute
+  Arabic    Noto Sans Arabic (shipped in brand/fonts/)
+  Numbers   tabular figures, always, so money lines up in a column
+
+CSS starting point
+  :root{
+    --ink:#2B1B3D; --lav:#D1C4E9; --mid:#59476B;
+    --soft:#7F6D91; --card:#F5F2F9; --rule:#DBD1E8;
+    --good:#1F7A54; --warn:#A8631B; --stop:#A32F2F;
+  }

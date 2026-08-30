@@ -2,9 +2,9 @@ import Nav from "./components/Nav"
 import './App.css'
 import { Routes, Route } from "react-router"
 import { useState } from "react"
-import SignInForm from "./pages/SignInForm"
 import Landing from "./pages/Landing"
-import Dashboard from "./pages/Dashboard"
+import Dashboard from "./pages/dashboard/Dashboard";
+import SignInForm from "./pages/auth/SignInForm";
 
 const getUserFromToken = () => {
   const token = localStorage.getItem('token')

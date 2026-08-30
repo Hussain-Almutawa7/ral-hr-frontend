@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { index } from "../services/userService";
+import { index } from "../../services/userService";
 
 function Dashboard({ user }) {
 
