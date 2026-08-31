@@ -15,6 +15,7 @@ import EmployeeList from "./pages/employees/EmployeeList";
 
 // ATTENDANCE PAGES
 import MyAttendance from "./pages/attendance/MyAttendance"; 
+import CheckIn from './pages/attendance/CheckIn';
 
 // LEAVE PAGES
 import MyLeave from "./pages/leave/MyLeave"; 
@@ -61,6 +62,7 @@ const App = () => {
 
             {/* ATTENDANCE ROUTES */}
             <Route path="/attendance" element={<MyAttendance />} /> 
+            <Route path='/attendance/check-in' element={<CheckIn />} />
 
             {/* LEAVE ROUTES */}
             <Route path="/leave" element={<MyLeave />} /> 
