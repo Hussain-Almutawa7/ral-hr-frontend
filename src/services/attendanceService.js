@@ -99,8 +99,32 @@ const getAttendances = async () => {
     }
 }
 
+const generateAttendance = async (date) => {
+    try {
+        const res = await fetch(`${ATTENDANCE_URL}/generate`, {
+            method: "POST",
+            headers: {
+                "Conetent-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({ date })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
 export {
     createCheckin,
     getMyCheckins,
     getMyAttendance,
+    getTeamAttendance,
+    getAttendances,
+    generateAttendance,
 }
