@@ -104,7 +104,7 @@ const generateAttendance = async (date) => {
         const res = await fetch(`${ATTENDANCE_URL}/generate`, {
             method: "POST",
             headers: {
-                "Conetent-Type": "application/json",
+                "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             },
             body: JSON.stringify({ date })
@@ -186,7 +186,6 @@ const correctAttendance = async (correctionId) => {
         const res = await fetch(`${CORRECTION_URL}/${correctionId}/correct`, {
             method: "PATCH",
             headers: {
-                "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             },
         });
@@ -228,7 +227,7 @@ const rejectCorrection = async (correctionId, rejectionReason) => {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             },
-            body: JSON.stringify(rejectionReason)
+            body: JSON.stringify({ rejectionReason })
         });
 
         const data = await res.json();
