@@ -220,6 +220,27 @@ const approveCorrection = async (correctionId) => {
     }
 }
 
+const rejectCorrection = async (correctionId, rejectionReason) => {
+    try {
+        const res = await fetch(`${CORRECTION_URL}/${correctionId}/reject`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(rejectionReason)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
 export {
     createCheckin,
     getMyCheckins,
@@ -232,4 +253,5 @@ export {
     createCorrection,
     correctAttendance,
     approveCorrection,
+    rejectCorrection,
 }
