@@ -15,6 +15,7 @@ import EmployeeList from "./pages/employees/EmployeeList";
 
 // ATTENDANCE PAGES
 import AttendanceManagement from './pages/attendance/AttendanceManagement';
+import AttendanceCorrections from './pages/attendance/AttendanceCorrections';
 import TeamAttendance from './pages/attendance/TeamAttendance';
 import MyAttendance from "./pages/attendance/MyAttendance";
 import CheckIn from './pages/attendance/CheckIn';
@@ -67,6 +68,7 @@ const App = () => {
             <Route path='/attendance/check-in' element={<CheckIn />} />
             <Route path='/attendance/team' element={<TeamAttendance />} />
             <Route path='/attendance/manage' element={<AttendanceManagement />} />
+            <Route path='/attendance/corrections' element={<AttendanceCorrections user={user} />} />
 
             {/* LEAVE ROUTES */}
             <Route path="/leave" element={<MyLeave />} />

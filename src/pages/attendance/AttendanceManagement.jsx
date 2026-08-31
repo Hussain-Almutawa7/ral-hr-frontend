@@ -28,7 +28,7 @@ const AttendanceManagement = () => {
         loadAttendance();
     }, []);
 
-    const handleGenerate = async date => {
+    const handleGenerate = async () => {
         try {
             setError("");
             setMessage("");
@@ -41,7 +41,7 @@ const AttendanceManagement = () => {
             setIsGenerating(true);
 
             const result = await generateAttendance(date);
-            setMessage(`Generated: ${result.generated || 0}, Skipped: ${result.skipped} || 0`);
+            setMessage(`Generated: ${result.generated || 0}, Skipped: ${result.skipped || 0}`);
 
             await loadAttendance();
         } catch (e) {
@@ -51,7 +51,7 @@ const AttendanceManagement = () => {
         }
     }
 
-    if (!isLoading) return <p>Loading attendance...</p>
+    if (isLoading) return <p>Loading attendance...</p>
 
     return (
         <div>
