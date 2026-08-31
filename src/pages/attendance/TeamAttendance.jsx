@@ -1,9 +1,22 @@
 import { useState, useEffect } from "react";
-import { getTeamAttendance, updateOvertime } from "../../services/attendanceService";
+import { getTeamAttendance, updateOvertime, createCorrection } from "../../services/attendanceService";
+import formatDate from "../../utils/formatDate";
+import formatTime from "../../utils/formatTime";
 
 const TeamAttendance = () => {
+    const correctionFormData = {
+        reason: "",
+        requestedInTime: "",
+        requestedOutTime: "",
+        requestedStatus: "",
+    }
+
     const [attendances, setAttendances] = useState([]);
+    const [selectedAttendance, setSelectedAttendance] = useState(null);
+    const [correctionForm, setCorrectionForm] = useState(correctionFormData);
+
     const [error, setError] = useState("");
+
     const [isLoading, setIsLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState(null);
 
@@ -34,6 +47,51 @@ const TeamAttendance = () => {
             setError(e.message);
         } finally {
             setActionLoading(null);
+        }
+    }
+
+    const handleOpenCorrection = attendance => {
+        setSelectedAttendance(attendance);
+        setCorrectionForm(correctionFormData);
+
+        setError("");
+    }
+
+    const handleChange = e => {
+        setCorrectionForm({ ...correctionForm, [e.target.name]: e.target.value })
+    }
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+
+        try {
+            setError("");
+
+            if (!correctionForm.requestedInTime && !correctionForm.requestedOutTime && !correctionForm.requestedStatus) {
+                setError("Please provide at least one requested correction.");
+                return;
+            }
+
+            const correctionData = {
+                attendance: selectedAttendance._id,
+                reason: correctionForm.reason,
+            };
+
+            if (correctionForm.requestedInTime)
+                correctionData.requestedInTime = new Date(correctionForm.requestedInTime).toISOString();
+
+            if (correctionForm.requestedOutTime)
+                correctionData.requestedOutTime = new Date(correctionForm.requestedOutTime).toISOString();
+
+            if (correctionForm.requestedStatus)
+                correctionData.requestedStatus = correctionForm.requestedStatus;
+
+            await createCorrection(correctionData);
+
+            setSelectedAttendance(null);
+
+        } catch (e) {
+            setError(e.message);
         }
     }
 
@@ -69,10 +127,10 @@ const TeamAttendance = () => {
                         {attendances.map(attendance => (
                             <tr key={attendance._id}>
                                 <td>{attendance.employee?.nameEn || "-"}</td>
-                                <td>{attendance.date}</td>
+                                <td>{formatDate(attendance.date)}</td>
                                 <td>{attendance.status}</td>
-                                <td>{attendance.inTime}</td>
-                                <td>{attendance.outTime}</td>
+                                <td>{formatTime(attendance.inTime)}</td>
+                                <td>{formatTime(attendance.outTime)}</td>
                                 <td>{attendance.workedHours}</td>
                                 <td>{attendance.isLateEntry ? "Yes" : "No"}</td>
                                 <td>{attendance.isEarlyExit ? "Yes" : "No"}</td>
@@ -97,11 +155,54 @@ const TeamAttendance = () => {
                                                 </button>
                                             </>
                                         )}
+
+                                    <button onClick={() => handleOpenCorrection(attendance)}>
+                                        Request Correction
+                                    </button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+            )}
+
+            {selectedAttendance && (
+                <form onSubmit={handleSubmit}>
+                    <h2>Request Attendance Correction</h2>
+
+                    <p>Employee: {selectedAttendance.employee?.nameEn}</p>
+
+                    <label>
+                        Reason
+                        <input type="text" name="reason" value={correctionForm.reason} onChange={handleChange} required />
+                    </label>
+
+                    <label>
+                        Requested In Time
+                        <input type="datetime-local" name="requestedInTime" value={correctionForm.requestedInTime} onChange={handleChange} />
+                    </label>
+
+                    <label>
+                        Requested Out Time
+                        <input type="datetime-local" name="requestedOutTime" value={correctionForm.requestedOutTime} onChange={handleChange} />
+                    </label>
+
+                    <label>
+                        Requested Status
+                        <select name="requestedStatus" value={correctionForm.requestedStatus} onChange={handleChange}>
+                            <option value="">No status change</option>
+                            <option value="Present">Present</option>
+                            <option value="Absent">Absent</option>
+                            <option value="Half Day">Half Day</option>
+                            <option value="On Leave">On Leave</option>
+                            <option value="Holiday">Holiday</option>
+                            <option value="Weekly Off">Weekly Off</option>
+                        </select>
+                    </label>
+
+                    <button type="submit">Submit</button>
+                    <button type="button" onClick={() => setSelectedAttendance(null)}>Cancel</button>
+                </form>
             )}
         </div>
     )

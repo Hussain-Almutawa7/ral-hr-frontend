@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { getMyAttendance } from "../../services/attendanceService";
 import { Link } from "react-router";
+import formatDate from "../../utils/formatDate";
+import formatTime from "../../utils/formatTime";
 
 const MyAttendance = () => {
     const [attendances, setAttendances] = useState([]);
@@ -21,22 +23,6 @@ const MyAttendance = () => {
     useEffect(() => {
         loadAttendance();
     }, []);
-
-    const formatDate = (date) => {
-        return new Date(date).toLocaleDateString("en-GB", {
-            timeZone: "Asia/Bahrain"
-        });
-    }
-
-    const formatTime = (time) => {
-        if(!time) return "-";
-
-        return new Date(time).toLocaleTimeString("en-GB", {
-            hour: "2-digit",
-            minute: "2-digit",
-            timeZone: "Asia/Bahrain"
-        });
-    }
 
     if(isLoading) return <p>Loading attendance....</p>
 
