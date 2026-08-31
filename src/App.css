@@ -36,7 +36,7 @@ form {
 form input {
   padding: 12px;
   border-radius: 8px;
-  border: 1px solid var(--color-primary);
+  border: 1px solid black;
 }
 
 form input:focus {
@@ -59,7 +59,7 @@ button:hover {
 
 button {
   background-color: var(--color-primary);
-  color: white;
+  color: var(--color-primary);
   border-radius: 8px;
   border: none;
   padding: 12px 18px;

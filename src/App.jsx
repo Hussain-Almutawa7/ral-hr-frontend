@@ -18,6 +18,7 @@ import MyAttendance from "./pages/attendance/MyAttendance";
 
 // LEAVE PAGES
 import MyLeave from "./pages/leave/MyLeave"; 
+import LeaveRequestForm from "./pages/leave/LeaveRequestForm"
 
 // DOCUMENT PAGES
 import Documents from "./pages/documents/Documents"; 
@@ -64,6 +65,7 @@ const App = () => {
 
             {/* LEAVE ROUTES */}
             <Route path="/leave" element={<MyLeave />} /> 
+            <Route path="/leave/new" element={<LeaveRequestForm />} />
 
             {/* DOCUMENT ROUTES */}
             <Route path="/documents" element={<Documents />} /> 
