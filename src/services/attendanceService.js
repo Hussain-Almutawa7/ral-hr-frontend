@@ -47,7 +47,7 @@ const getMyCheckins = async () => {
 // ATTENDANCE
 const getMyAttendance = async () => {
     try {
-        const res = await fetch(`${ATTENDANCE_URL}`, {
+        const res = await fetch(`${ATTENDANCE_URL}/me`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             },
@@ -66,6 +66,24 @@ const getMyAttendance = async () => {
 const getTeamAttendance = async () => {
     try {
         const res = await fetch(`${ATTENDANCE_URL}/team`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const getAttendances = async () => {
+    try {
+        const res = await fetch(`${ATTENDANCE_URL}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             },
