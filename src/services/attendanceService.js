@@ -120,6 +120,27 @@ const generateAttendance = async (date) => {
     }
 }
 
+const updateOvertime = async (attendanceId, approved) => {
+    try {
+        const res = await fetch(`${ATTENDANCE_URL}/${attendanceId}/overtime`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({ approved })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
 export {
     createCheckin,
     getMyCheckins,
@@ -127,4 +148,5 @@ export {
     getTeamAttendance,
     getAttendances,
     generateAttendance,
+    updateOvertime,
 }
