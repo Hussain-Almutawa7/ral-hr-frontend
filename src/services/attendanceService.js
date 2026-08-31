@@ -201,6 +201,25 @@ const correctAttendance = async (correctionId) => {
     }
 }
 
+const approveCorrection = async (correctionId) => {
+    try {
+        const res = await fetch(`${CORRECTION_URL}/${correctionId}/approve`, {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
 export {
     createCheckin,
     getMyCheckins,
@@ -212,4 +231,5 @@ export {
     getCorrections,
     createCorrection,
     correctAttendance,
+    approveCorrection,
 }
