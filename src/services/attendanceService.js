@@ -181,6 +181,26 @@ const createCorrection = async (correctionData) => {
     }
 }
 
+const correctAttendance = async (correctionId) => {
+    try {
+        const res = await fetch(`${CORRECTION_URL}/${correctionId}/correct`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
 export {
     createCheckin,
     getMyCheckins,
@@ -191,4 +211,5 @@ export {
     updateOvertime,
     getCorrections,
     createCorrection,
+    correctAttendance,
 }
