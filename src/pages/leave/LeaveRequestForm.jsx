@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import * as leaveTypeService from "../../services/leaveTypeService"
 import * as leaveRequestService from "../../services/leaveRequestService"
+import * as leaveAllocationService from "../../services/leaveAllocationService"
 
 const initialState = {
     leaveType: "",
@@ -15,6 +16,7 @@ const initialState = {
 const LeaveRequestForm = (props) => {
     const [formData, setFormData] = useState(initialState)
     const [leaveTypes, setLeaveTypes] = useState([])
+    const [allocations, setAllocations] = useState([])
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -22,8 +24,21 @@ const LeaveRequestForm = (props) => {
             const leaveTypesData = await leaveTypeService.index()
             setLeaveTypes(leaveTypesData)
         }
+
+        const fetchAllAllocations = async () => {
+            const allocationsData = await leaveAllocationService.index()
+            setAllocations(allocationsData)
+        }
+
         fetchAllTypes()
+        fetchAllAllocations()
     }, [])
+
+    const findAllocationForType = (leaveTypeId) => {
+        return allocations.find(
+            (allocation) => allocation.leaveType === leaveTypeId && allocation.employee === props.user.employee
+        )
+    }
 
     const handleChange = (event) => {
         setFormData({
@@ -36,8 +51,7 @@ const LeaveRequestForm = (props) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const newRequest = await leaveRequestService.create(formData);
-        // navigate(`/leave/${newRequest._id}`);
-        navigate("/leave");
+        navigate("/leave")
         setFormData(initialState)
     }
 
@@ -48,9 +62,12 @@ const LeaveRequestForm = (props) => {
                 <select name="leaveType" id="leaveType" required value={formData.leaveType} onChange={handleChange}>
                     <option value="">Select a leave type</option>
                     {leaveTypes.map((type) => {
+                        const allocation = findAllocationForType(type._id)
+                        const balance = allocation ? `${allocation.remainingDays} days left` : "Not yet allocated"
+
                         return (
                             <option key={type._id} value={type._id}>
-                                {type.leaveTypeName}
+                                {type.leaveTypeName} -- {balance}
                             </option>
                         )
                     })}
