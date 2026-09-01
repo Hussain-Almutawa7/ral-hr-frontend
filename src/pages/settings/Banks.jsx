@@ -9,6 +9,7 @@ import Modal from "../../components/common/Modal";
 
 const Banks = ({ user }) => {
     const canEdit = user.role === "HR Manager";
+    
     const [banks, setBanks] = useState([]);
 
     const [formData, setFormData] = useState({

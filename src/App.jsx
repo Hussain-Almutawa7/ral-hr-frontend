@@ -34,8 +34,9 @@ import Documents from "./pages/documents/Documents";
 // SETTINGS PAGES
 import Banks from './pages/settings/Banks';
 import Company from './pages/settings/Company';
-import Departments from './pages/settings/Departments';
 import Designations from './pages/settings/Designations';
+import Departments from './pages/settings/Departments';
+import DocumentTypes from './pages/settings/DocumentTypes';
 
 // NOTIFICATION PAGES
 
@@ -92,6 +93,7 @@ const App = () => {
             <Route path='/settings/departments' element={<Departments />} />
             <Route path='/settings/designations' element={<Designations />} />
             <Route path='/settings/banks' element={<Banks user={user} />} />
+            <Route path='/settings/document-types' element={<DocumentTypes user={user} />} />
 
             {/* NOTIFICATION ROUTES */}
 

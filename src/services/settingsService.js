@@ -379,4 +379,8 @@ export {
     createBank,
     updateBank,
     updateBankStatus,
+    getAllDocumentTypes,
+    createDocumentType,
+    updateDocumentType,
+    updateDocumentTypeStatus,
 }
