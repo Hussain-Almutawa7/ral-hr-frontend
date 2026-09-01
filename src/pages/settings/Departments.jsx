@@ -22,7 +22,7 @@ const Department = () => {
     const [message, setMessage] = useState("");
     
     const [isLoading, setIsLoading] = useState(true);
-    const [isSubmitting, setIsSubmiting] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [actionLoading, setActionLoading] = useState(null);
 
     const loadDepartments = async () => {
@@ -76,7 +76,7 @@ const Department = () => {
         e.preventDefault();
 
         try {
-            setIsSubmiting(true);
+            setIsSubmitting(true);
             setError("");
             setMessage("");
 
@@ -85,7 +85,7 @@ const Department = () => {
                  setMessage("Department updated successfully.");
             } else {
                 await createDepartment(formData);
-                setMessage("Department created successfully");
+                setMessage("Department created successfully.");
             }
 
             setIsModal(false);
@@ -95,7 +95,7 @@ const Department = () => {
         } catch (e) {
             setError(e.message);
         } finally {
-            setIsSubmiting(false);
+            setIsSubmitting(false);
         }
     }
 
@@ -107,7 +107,7 @@ const Department = () => {
 
             await updateDepartmentStatus(department._id, !department.isActive)
 
-            setMessage(department.isActive ? "Department deactivated successfully." : "Department activated successfully");
+            setMessage(department.isActive ? "Department deactivated successfully." : "Department activated successfully.");
 
             await loadDepartments();
         } catch (e) {
