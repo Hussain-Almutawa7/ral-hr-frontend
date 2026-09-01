@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router"
 import * as leaveRequestService from "../../services/leaveRequestService"
 import Modal from "../../components/common/Modal"
+import formatDate from "../../utils/formatDate"
 
 const HR_ROLES = ["HR Officer", "HR Manager"]
 
@@ -75,7 +76,7 @@ const LeaveRequestDetails = (props) => {
     if (!request) {
         return <p>Loading...</p>
     }
-    
+
     const isOwner = props.user.employee === request.employee._id
     const isReviewer = HR_ROLES.includes(props.user.role) || props.user.employee === request.approver._id
 
@@ -83,10 +84,10 @@ const LeaveRequestDetails = (props) => {
         return (
             <div>
                 <h1>{request.leaveType.leaveTypeName}</h1>
-                <p>From: {new Date(request.fromDate).toDateString()}</p>
-                <p>To: {new Date(request.toDate).toDateString()}</p>
+                <p>From: {formatDate(request.fromDate)}</p>
+                <p>To: {formatDate(request.toDate)}</p>
                 {request.isHalfDay && (
-                    <p>Half Day Date: {new Date(request.halfDayDate).toDateString()}</p>
+                    <p>Half Day Date: {formatDate(request.halfDayDate)}</p>
                 )}
                 <p>Total Days: {request.totalDays}</p>
                 <p>Reason: {request.reason}</p>
@@ -126,10 +127,10 @@ const LeaveRequestDetails = (props) => {
                 <h1>{request.leaveType.leaveTypeName}</h1>
                 <p>Employee: {request.employee.nameEn}</p>
                 <p>Approver: {request.approver.nameEn}</p>
-                <p>From: {new Date(request.fromDate).toDateString()}</p>
-                <p>To: {new Date(request.toDate).toDateString()}</p>
+                <p>From: {formatDate(request.fromDate)}</p>
+                <p>To: {formatDate(request.toDate)}</p>
                 {request.isHalfDay && (
-                    <p>Half Day Date: {new Date(request.halfDayDate).toDateString()}</p>
+                    <p>Half Day Date: {formatDate(request.halfDayDate)}</p>
                 )}
                 <p>Total Days: {request.totalDays}</p>
                 <p>Reason: {request.reason}</p>
