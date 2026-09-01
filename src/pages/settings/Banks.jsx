@@ -7,7 +7,7 @@ import Message from "../../components/common/Message";
 import StatusBadge from "../../components/common/StatusBadge";
 import Modal from "../../components/common/Modal";
 
-const Bank = ({ user }) => {
+const Banks = ({ user }) => {
     const canEdit = user.role === "HR Manager";
     const [banks, setBanks] = useState([]);
 
@@ -210,4 +210,4 @@ const Bank = ({ user }) => {
     )
 }
 
-export default Bank;
+export default Banks;

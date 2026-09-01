@@ -32,10 +32,10 @@ import Documents from "./pages/documents/Documents";
 // USER MANAGEMENT PAGES
 
 // SETTINGS PAGES
-import Bank from './pages/settings/Banks';
+import Banks from './pages/settings/Banks';
 import Company from './pages/settings/Company';
-import Department from './pages/settings/Departments';
-import Designation from './pages/settings/Designations';
+import Departments from './pages/settings/Departments';
+import Designations from './pages/settings/Designations';
 
 // NOTIFICATION PAGES
 
@@ -89,9 +89,9 @@ const App = () => {
 
             {/* SETTINGS ROUTES */}
             <Route path='/settings/company' element={<Company user={user} />} />
-            <Route path='/settings/departments' element={<Department />} />
-            <Route path='/settings/designations' element={<Designation />} />
-            <Route path='/settings/banks' element={<Bank user={user} />} />
+            <Route path='/settings/departments' element={<Departments />} />
+            <Route path='/settings/designations' element={<Designations />} />
+            <Route path='/settings/banks' element={<Banks user={user} />} />
 
             {/* NOTIFICATION ROUTES */}
 

@@ -7,7 +7,7 @@ import Message from "../../components/common/Message";
 import StatusBadge from "../../components/common/StatusBadge";
 import Modal from "../../components/common/Modal";
 
-const Department = () => {
+const Departments = () => {
     const [departments, setDepartments] = useState([]);
 
     const [formData, setFormData] = useState({
@@ -205,4 +205,4 @@ const Department = () => {
     )
 }
 
-export default Department;
+export default Departments;

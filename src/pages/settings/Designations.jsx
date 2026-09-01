@@ -7,7 +7,7 @@ import Message from "../../components/common/Message";
 import StatusBadge from "../../components/common/StatusBadge";
 import Modal from "../../components/common/Modal";
 
-const Designation = () => {
+const Designations = () => {
     const [designations, setDsignations] = useState([]);
 
     const [formData, setFormData] = useState({
@@ -205,4 +205,4 @@ const Designation = () => {
     )
 }
 
-export default Designation;
+export default Designations;
