@@ -17,6 +17,7 @@ import EmployeeList from "./pages/employees/EmployeeList";
 import AttendanceManagement from './pages/attendance/AttendanceManagement';
 import AttendanceCorrections from './pages/attendance/AttendanceCorrections';
 import TeamAttendance from './pages/attendance/TeamAttendance';
+import MyAttendance from './pages/attendance/MyAttendance';
 import CheckIn from './pages/attendance/CheckIn';
 
 // LEAVE PAGES
