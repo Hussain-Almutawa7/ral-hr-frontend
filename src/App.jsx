@@ -33,6 +33,7 @@ import Documents from "./pages/documents/Documents";
 
 // SETTINGS PAGES
 import Banks from './pages/settings/Banks';
+import Holidays from './pages/settings/Holidays';
 import Company from './pages/settings/Company';
 import ShiftTypes from './pages/settings/ShiftTypes';
 import HolidayLists from './pages/settings/HolidayLists';
@@ -100,6 +101,7 @@ const App = () => {
             <Route path='/settings/shift-types' element={<ShiftTypes user={user} />} />
             <Route path='/settings/shift-assignments' element={<ShiftAssignments user={user} />} />
             <Route path='/settings/holiday-lists' element={<HolidayLists user={user} />} />
+            <Route path='/settings/holidays' element={<Holidays user={user} />} />
 
             {/* NOTIFICATION ROUTES */}
 
