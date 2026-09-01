@@ -44,7 +44,6 @@ const LeaveRequestForm = (props) => {
         setFormData({
             ...formData,
             [event.target.name]: event.target.value,
-            // [name]: type === "checkbox" ? checked : value,
         })
     }
 
@@ -92,11 +91,7 @@ const LeaveRequestForm = (props) => {
                 />
 
                 <label htmlFor="isHalfDay">Is Half Day?</label>
-                {formData.isHalfDay ? (
-                    <input type="checkbox" id="isHalfDay" name="isHalfDay" checked onChange={handleChange} />
-                ) : (
-                    <input type="checkbox" id="isHalfDay" name="isHalfDay" onChange={handleChange} />
-                )}
+                <input type="checkbox" id="isHalfDay" name="isHalfDay" onChange={handleChange} />
 
                 <label htmlFor="halfDayDate">Is Half Day?</label>
                 <input

@@ -14,7 +14,6 @@ import Layout from "./components/layout/Layout";
 import EmployeeList from "./pages/employees/EmployeeList";
 
 // ATTENDANCE PAGES
-import MyAttendance from "./pages/attendance/MyAttendance";
 import AttendanceManagement from './pages/attendance/AttendanceManagement';
 import AttendanceCorrections from './pages/attendance/AttendanceCorrections';
 import TeamAttendance from './pages/attendance/TeamAttendance';
@@ -25,7 +24,9 @@ import CheckIn from './pages/attendance/CheckIn';
 import MyLeave from "./pages/leave/MyLeave";
 import LeaveRequestForm from "./pages/leave/LeaveRequestForm"
 import LeaveRequestDetails from "./pages/leave/LeaveRequestDetails"
-
+import LeaveTypes from './pages/leave/LeaveTypes';
+import LeaveManagement from './pages/leave/LeaveManagement';
+import LeaveTypeForm from './pages/leave/LeaveTypeForm';
 
 // DOCUMENT PAGES
 import Documents from "./pages/documents/Documents";
@@ -78,6 +79,9 @@ const App = () => {
             <Route path="/leave" element={<MyLeave user={user} />} />
             <Route path="/leave/new" element={<LeaveRequestForm user={user} />} />
             <Route path="/leave/:requestId" element={<LeaveRequestDetails user={user} />} />
+            <Route path="/leave/types" element={<LeaveTypes user={user} />} />
+            <Route path="/leave/types/new" element={<LeaveTypeForm user={user} />} />
+            <Route path="/leave/manage" element={<LeaveManagement user={user} />} />
 
             {/* DOCUMENT ROUTES */}
             <Route path="/documents" element={<Documents />} />

@@ -60,9 +60,15 @@ const Sidebar = ({ user }) => {
 
                         )}
 
-                        <NavLink to="/leave" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                            Leave
+                        <NavLink to="/leave" end className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                            My Leave
                         </NavLink>
+
+                        {isHR && (
+                            <NavLink to="/leave/manage" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                                Leave Management
+                            </NavLink>
+                        )}
 
                         <NavLink to="/documents" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
                             Documents
