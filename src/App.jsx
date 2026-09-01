@@ -34,6 +34,7 @@ import Documents from "./pages/documents/Documents";
 // SETTINGS PAGES
 import Company from './pages/settings/Company';
 import Department from './pages/settings/Departments';
+import Designation from './pages/settings/Designations';
 
 // NOTIFICATION PAGES
 
@@ -88,6 +89,7 @@ const App = () => {
             {/* SETTINGS ROUTES */}
             <Route path='/settings/company' element={<Company user={user} />} />
             <Route path='/settings/departments' element={<Department />} />
+            <Route path='/settings/designations' element={<Designation />} />
 
             {/* NOTIFICATION ROUTES */}
 
