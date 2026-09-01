@@ -36,7 +36,7 @@ form {
 form input {
   padding: 12px;
   border-radius: 8px;
-  border: 1px solid var(--color-primary);
+  border: 1px solid black;
 }
 
 form input:focus {
@@ -52,6 +52,20 @@ form input:focus {
 .actions button {
   flex: 1;
 }
+
+button:hover {
+  background-color: var(--color-primary-dark);
+}
+
+button {
+  background-color: var(--color-primary);
+  color: var(--color-primary);
+  border-radius: 8px;
+  border: none;
+  padding: 12px 18px;
+  font-weight: bold;
+}
+
 
 button:disabled {
   opacity: 0.5;

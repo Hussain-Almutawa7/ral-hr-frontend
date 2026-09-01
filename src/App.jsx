@@ -1,3 +1,4 @@
+import './App.css'
 import { Routes, Route } from "react-router"
 import { useState } from "react"
 
@@ -13,6 +14,7 @@ import Layout from "./components/layout/Layout";
 import EmployeeList from "./pages/employees/EmployeeList";
 
 // ATTENDANCE PAGES
+import MyAttendance from "./pages/attendance/MyAttendance";
 import AttendanceManagement from './pages/attendance/AttendanceManagement';
 import AttendanceCorrections from './pages/attendance/AttendanceCorrections';
 import TeamAttendance from './pages/attendance/TeamAttendance';
@@ -21,6 +23,9 @@ import CheckIn from './pages/attendance/CheckIn';
 
 // LEAVE PAGES
 import MyLeave from "./pages/leave/MyLeave";
+import LeaveRequestForm from "./pages/leave/LeaveRequestForm"
+import LeaveRequestDetails from "./pages/leave/LeaveRequestDetails"
+
 
 // DOCUMENT PAGES
 import Documents from "./pages/documents/Documents";
@@ -70,7 +75,9 @@ const App = () => {
             <Route path='/attendance/corrections' element={<AttendanceCorrections user={user} />} />
 
             {/* LEAVE ROUTES */}
-            <Route path="/leave" element={<MyLeave />} />
+            <Route path="/leave" element={<MyLeave user={user} />} />
+            <Route path="/leave/new" element={<LeaveRequestForm user={user} />} />
+            <Route path="/leave/:requestId" element={<LeaveRequestDetails user={user} />} />
 
             {/* DOCUMENT ROUTES */}
             <Route path="/documents" element={<Documents />} />
