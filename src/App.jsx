@@ -15,11 +15,17 @@ import EmployeeList from "./pages/employees/EmployeeList";
 
 // ATTENDANCE PAGES
 import MyAttendance from "./pages/attendance/MyAttendance";
+import AttendanceManagement from './pages/attendance/AttendanceManagement';
+import AttendanceCorrections from './pages/attendance/AttendanceCorrections';
+import TeamAttendance from './pages/attendance/TeamAttendance';
+import MyAttendance from "./pages/attendance/MyAttendance";
+import CheckIn from './pages/attendance/CheckIn';
 
 // LEAVE PAGES
 import MyLeave from "./pages/leave/MyLeave";
 import LeaveRequestForm from "./pages/leave/LeaveRequestForm"
 import LeaveRequestDetails from "./pages/leave/LeaveRequestDetails"
+
 
 // DOCUMENT PAGES
 import Documents from "./pages/documents/Documents";
@@ -63,6 +69,10 @@ const App = () => {
 
             {/* ATTENDANCE ROUTES */}
             <Route path="/attendance" element={<MyAttendance />} />
+            <Route path='/attendance/check-in' element={<CheckIn />} />
+            <Route path='/attendance/team' element={<TeamAttendance />} />
+            <Route path='/attendance/manage' element={<AttendanceManagement />} />
+            <Route path='/attendance/corrections' element={<AttendanceCorrections user={user} />} />
 
             {/* LEAVE ROUTES */}
             <Route path="/leave" element={<MyLeave user={user} />} />
