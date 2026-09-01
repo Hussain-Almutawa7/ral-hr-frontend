@@ -65,7 +65,7 @@ const App = () => {
             <Route path="/attendance" element={<MyAttendance />} />
 
             {/* LEAVE ROUTES */}
-            <Route path="/leave" element={<MyLeave />} />
+            <Route path="/leave" element={<MyLeave user={user} />} />
             <Route path="/leave/new" element={<LeaveRequestForm user={user} />} />
             <Route path="/leave/:requestId" element={<LeaveRequestDetails user={user} />} />
 
