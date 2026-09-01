@@ -1,22 +1,29 @@
 import { useEffect, useState } from "react";
 import { getMyCheckins, createCheckin } from "../../services/attendanceService";
 
+import Button from "../../components/common/Button";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
+import Message from "../../components/common/Message";
+
 const CheckIn = () => {
     const [checkins, setCheckins] = useState([]);
+
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
-    const [isLoading, setIsLoading] = useState(true);
 
-        const loadCheckins = async () => {
-            try {
-                const checkinData = await getMyCheckins();
-                setCheckins(checkinData);
-            } catch (e) {
-                setError(e.message);
-            } finally {
-                setIsLoading(false);
-            }
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const loadCheckins = async () => {
+        try {
+            const checkinData = await getMyCheckins();
+            setCheckins(checkinData);
+        } catch (e) {
+            setError(e.message);
+        } finally {
+            setIsLoading(false);
         }
+    }
 
     useEffect(() => {
         loadCheckins();
@@ -24,32 +31,40 @@ const CheckIn = () => {
 
     const handleCheckin = async (logType) => {
         try {
-            setIsLoading(true);
+            setIsSubmitting(true);
             setError("");
             setMessage("");
 
-            await createCheckin({logType, source: "Web"});
+            await createCheckin({ logType, source: "Web" });
 
-            setMessage(logType === "IN" ? "Checked in successfully." : "Checked out successfully");
+            setMessage(logType === "IN" ? "Checked in successfully." : "Checked out successfully.");
 
             await loadCheckins();
         } catch (e) {
             setError(e.message);
         } finally {
-            setIsLoading(false);
+            setIsSubmitting(false);
         }
     }
+
+    if (isLoading) return <LoadingSpinner message="Loading checkins..." />
+
     return (
         <>
             <div>
                 <h1>Check In / Out</h1>
 
-                {error && <p>{error}</p>}
-                {message && <p>{message}</p>}
+                <Message type="error">{error}</Message>
+                <Message>{message}</Message>
 
                 <div>
-                    <button onClick={() => handleCheckin("IN")} disabled={isLoading}>Check In</button>
-                     <button onClick={() => handleCheckin("OUT")} disabled={isLoading}>Check Out</button>
+                    <Button variant="sucess" onClick={() => handleCheckin("IN")} disabled={isSubmitting}>
+                        {isSubmitting ? "Processing..." : "Check In"}
+                    </Button>
+
+                    <Button variant="secondary" onClick={() => handleCheckin("OUT")} disabled={isSubmitting}>
+                        {isSubmitting ? "Processing..." : "Check Out"}
+                    </Button>
                 </div>
 
                 <h2>Check-in History</h2>

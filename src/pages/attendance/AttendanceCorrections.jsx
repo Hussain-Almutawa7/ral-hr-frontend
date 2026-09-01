@@ -9,6 +9,12 @@ import {
 import formatDate from "../../utils/formatDate";
 import formatTime from "../../utils/formatTime";
 
+import Button from "../../components/common/Button";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
+import Message from "../../components/common/Message";
+import StatusBadge from "../../components/common/StatusBadge";
+import Modal from "../../components/common/Modal";
+
 const AttendanceCorrections = ({ user }) => {
     const [corrections, setCorrections] = useState([]);
 
@@ -72,7 +78,7 @@ const AttendanceCorrections = ({ user }) => {
     }
 
     const handleOpenReject = correction => {
-        selectedCorrection(correction);
+        setSelectedCorrection(correction);
         setRejectionReason("");
         setError("");
     }
@@ -101,14 +107,14 @@ const AttendanceCorrections = ({ user }) => {
         loadCorrections();
     }, []);
 
-    if (isLoading) return <p>Loading corrections...</p>
+    if (isLoading) return <LoadingSpinner message="Loading corrections..." />
 
     return (
         <div>
             <h1>Attendance Corrections</h1>
 
-            {error && <p>{error}</p>}
-            {message && <p>{message}</p>}
+            <Message type="error">{error}</Message>
+            <Message>{message}</Message>
 
             {corrections.length === 0 ? (
                 <p>No attendance corrections found.</p>
@@ -137,25 +143,29 @@ const AttendanceCorrections = ({ user }) => {
                                 <td>{formatTime(correction.requestedInTime)}</td>
                                 <td>{formatTime(correction.requestedOutTime)}</td>
                                 <td>{correction.requestedStatus || "-"}</td>
-                                <td>{correction.status}</td>
-                                <td>{correction.rejectionReason}</td>
+
+                                <td>
+                                    <StatusBadge status={correction.status} />
+                                </td>
+
+                                <td>{correction.rejectionReason || "-"}</td>
 
                                 <td>
                                     {isHR && correction.status === "Requested" && (
-                                        <button onClick={() => handleCorrect(correction._id)} disabled={actionLoading === correction._id}>
+                                        <Button variant="primary" onClick={() => handleCorrect(correction._id)} disabled={actionLoading === correction._id}>
                                             Correct
-                                        </button>
+                                        </Button>
                                     )}
 
                                     {isManager && correction.status === "Corrected by HR" && (
                                         <>
-                                            <button onClick={() => handleApprove(correction._id)} disabled={actionLoading === correction._id}>
+                                            <Button variant="success" onClick={() => handleApprove(correction._id)} disabled={actionLoading === correction._id}>
                                                 Approve
-                                            </button>
+                                            </Button>
 
-                                            <button onClick={() => handleOpenReject(correction)} disabled={actionLoading === correction._id}>
+                                            <Button variant="danger" onClick={() => handleOpenReject(correction)} disabled={actionLoading === correction._id}>
                                                 Reject
-                                            </button>
+                                            </Button>
                                         </>
                                     )}
                                 </td>
@@ -165,7 +175,7 @@ const AttendanceCorrections = ({ user }) => {
                 </table>
             )}
 
-            {selectedCorrection && (
+            <Modal isOpen={selectedCorrection !== null} onClose={() => setSelectedCorrection(null)}>
                 <form onSubmit={handleReject}>
                     <h2>Reject Correction</h2>
 
@@ -174,10 +184,10 @@ const AttendanceCorrections = ({ user }) => {
                         <input type="text" value={rejectionReason} onChange={e => setRejectionReason(e.target.value)} required />
                     </label>
 
-                    <button type="submit">Submit</button>
-                    <button type="button" onClick={() => setSelectedCorrection(null)}>Cancel</button>
+                    <Button type="submit" variant="danger">Reject</Button>
+                    <Button variant="secondary" onClick={() => setSelectedCorrection(null)}>Cancel</Button>
                 </form>
-            )}
+            </Modal>
         </div>
     )
 }

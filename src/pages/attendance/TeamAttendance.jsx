@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import { getTeamAttendance, updateOvertime, createCorrection } from "../../services/attendanceService";
+
 import formatDate from "../../utils/formatDate";
 import formatTime from "../../utils/formatTime";
+
+import Button from "../../components/common/Button";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
+import Message from "../../components/common/Message";
+import StatusBadge from "../../components/common/StatusBadge";
+import Modal from "../../components/common/Modal";
 
 const TeamAttendance = () => {
     const correctionFormData = {
@@ -16,6 +23,7 @@ const TeamAttendance = () => {
     const [correctionForm, setCorrectionForm] = useState(correctionFormData);
 
     const [error, setError] = useState("");
+    const [message, setMessage] = useState("");
 
     const [isLoading, setIsLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState(null);
@@ -88,6 +96,7 @@ const TeamAttendance = () => {
 
             await createCorrection(correctionData);
 
+            setMessage("Correction requested successfully.")
             setSelectedAttendance(null);
 
         } catch (e) {
@@ -95,13 +104,14 @@ const TeamAttendance = () => {
         }
     }
 
-    if (isLoading) return <p>Loading team attendance...</p>;
+    if (isLoading) return <LoadingSpinner message="Loading team attendance..." />;
 
     return (
         <div>
             <h1>Team Attendance</h1>
 
-            {error && <p>{error}</p>}
+            <Message type="error">{error}</Message>
+            <Message>{message}</Message>
 
             {attendances.length === 0 ? (
                 <p>No team attendance records found.</p>
@@ -128,31 +138,40 @@ const TeamAttendance = () => {
                             <tr key={attendance._id}>
                                 <td>{attendance.employee?.nameEn || "-"}</td>
                                 <td>{formatDate(attendance.date)}</td>
-                                <td>{attendance.status}</td>
+
+                                <td>
+                                    <StatusBadge status={attendance.status} />
+                                </td>
+
                                 <td>{formatTime(attendance.inTime)}</td>
                                 <td>{formatTime(attendance.outTime)}</td>
                                 <td>{attendance.workedHours}</td>
                                 <td>{attendance.isLateEntry ? "Yes" : "No"}</td>
                                 <td>{attendance.isEarlyExit ? "Yes" : "No"}</td>
                                 <td>{attendance.overtimeHours}</td>
-                                <td>{attendance.overtimeStatus || "-"}</td>
+
+                                <td>
+                                    <StatusBadge status={attendance.overtimeStatus} />
+                                </td>
                                 <td>
                                     {attendance.overtimeHours > 0 &&
                                         attendance.overtimeStatus === "Pending" && (
                                             <>
-                                                <button
+                                                <Button
+                                                    variant="success"
                                                     onClick={() => handleOvertime(attendance._id, true)}
                                                     disabled={actionLoading === attendance._id}
                                                 >
                                                     Approve OT
-                                                </button>
+                                                </Button>
 
-                                                <button
+                                                <Button
+                                                    variant="danger"
                                                     onClick={() => handleOvertime(attendance._id, false)}
                                                     disabled={actionLoading === attendance._id}
                                                 >
                                                     Reject OT
-                                                </button>
+                                                </Button>
                                             </>
                                         )}
 
@@ -166,11 +185,11 @@ const TeamAttendance = () => {
                 </table>
             )}
 
-            {selectedAttendance && (
+            <Modal isOpen={selectedAttendance !== null} onClose={() => setSelectedAttendance(null)}>
                 <form onSubmit={handleSubmit}>
                     <h2>Request Attendance Correction</h2>
 
-                    <p>Employee: {selectedAttendance.employee?.nameEn}</p>
+                    <p>Employee: {selectedAttendance?.employee?.nameEn}</p>
 
                     <label>
                         Reason
@@ -200,10 +219,10 @@ const TeamAttendance = () => {
                         </select>
                     </label>
 
-                    <button type="submit">Submit</button>
-                    <button type="button" onClick={() => setSelectedAttendance(null)}>Cancel</button>
+                    <Button type="submit" variant="primary">Submit</Button>
+                    <Button variant="secondary" onClick={() => setSelectedAttendance(null)}>Cancel</Button>
                 </form>
-            )}
+            </Modal>
         </div>
     )
 }

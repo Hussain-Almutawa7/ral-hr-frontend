@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { getAttendances, generateAttendance } from "../../services/attendanceService";
+
 import formatDate from "../../utils/formatDate";
 import formatTime from "../../utils/formatTime";
+
+import Button from "../../components/common/Button";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
+import Message from "../../components/common/Message";
+import StatusBadge from "../../components/common/StatusBadge";
 
 const AttendanceManagement = () => {
     const [attendances, setAttendances] = useState([]);
@@ -51,14 +57,14 @@ const AttendanceManagement = () => {
         }
     }
 
-    if (isLoading) return <p>Loading attendance...</p>
+    if (isLoading) return <LoadingSpinner message="Loading attendance..." />
 
     return (
         <div>
             <h1>Attendance Management</h1>
 
-            {error && <p>{error}</p>}
-            {message && <p>{message}</p>}
+            <Message type="error">{error}</Message>
+            <Message>{message}</Message>
 
             <div>
                 <label>
@@ -66,9 +72,9 @@ const AttendanceManagement = () => {
                     <input type="date" value={date} onChange={e => setDate(e.target.value)} />
                 </label>
 
-                <button onClick={handleGenerate} disabled={isGenerating}>
+                <Button variant="primary" onClick={handleGenerate} disabled={isGenerating}>
                     {isGenerating ? "Generating..." : "Generate"}
-                </button>
+                </Button>
             </div>
 
             {attendances.length === 0 ? (
@@ -97,7 +103,11 @@ const AttendanceManagement = () => {
                             <tr key={attendance._id}>
                                 <td>{attendance.employee?.nameEn || "-"}</td>
                                 <td>{formatDate(attendance.date)}</td>
-                                <td>{attendance.status}</td>
+
+                                <td>
+                                    <StatusBadge status={attendance.status} />
+                                </td>
+
                                 <td>{formatTime(attendance.inTime)}</td>
                                 <td>{formatTime(attendance.outTime)}</td>
                                 <td>{attendance.workedHours}</td>
@@ -105,7 +115,11 @@ const AttendanceManagement = () => {
                                 <td>{attendance.isEarlyExit ? "Yes" : "No"}</td>
                                 <td>{attendance.isIncomplete ? "Yes" : "No"}</td>
                                 <td>{attendance.overtimeHours}</td>
-                                <td>{attendance.overtimeStatus || "-"}</td>
+
+                                <td>
+                                    <StatusBadge status={attendance.overtimeStatus} />
+                                </td>
+
                                 <td>{attendance.isCorrected ? "Yes" : "No"}</td>
                             </tr>
                         ))}
