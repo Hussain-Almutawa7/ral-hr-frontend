@@ -22,6 +22,7 @@ const getCompany = async () => {
 const updateCompany = async (companyData) => {
     try {
         const res = await fetch(`${BASE_URL}/company`, {
+            method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("token")}`

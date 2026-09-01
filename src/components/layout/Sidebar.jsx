@@ -71,9 +71,15 @@ const Sidebar = ({ user }) => {
                 )}
 
                 {isHR && (
-                    <NavLink to="/settings" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                        Settings
-                    </NavLink>
+                    <>
+                        <NavLink to="/settings" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                            Settings
+                        </NavLink>
+
+                        <NavLink to="/settings/company" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                            Company
+                        </NavLink>
+                    </>
                 )}
 
                 {isHRManager && (

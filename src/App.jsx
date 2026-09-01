@@ -32,6 +32,7 @@ import Documents from "./pages/documents/Documents";
 // USER MANAGEMENT PAGES
 
 // SETTINGS PAGES
+import Company from './pages/settings/Company';
 
 // NOTIFICATION PAGES
 
@@ -84,6 +85,8 @@ const App = () => {
             {/* USER MANAGEMENT ROUTES */}
 
             {/* SETTINGS ROUTES */}
+            <Route path='/settings/company' element={<Company user={user} />} />
+            
 
             {/* NOTIFICATION ROUTES */}
 
