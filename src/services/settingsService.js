@@ -364,6 +364,105 @@ const updateDocumentTypeStatus = async (id, isActive) => {
     }
 }
 
+const getAllShiftTypes = async () => {
+    try {
+        const res = await fetch(`${BASE_URL}/shift-types`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const createShiftType = async (formData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/shift-types`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const updateShiftType = async (id, formData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/shift-types/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const updateShiftTypeStatus = async (id, isActive) => {
+    try {
+        const res = await fetch(`${BASE_URL}/shift-types/${id}/status`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({ isActive })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const getAllHolidayLists = async () => {
+    try {
+        const res = await fetch(`${BASE_URL}/holiday-lists`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
 export {
     getCompany,
     updateCompany,
@@ -383,4 +482,9 @@ export {
     createDocumentType,
     updateDocumentType,
     updateDocumentTypeStatus,
+    getAllShiftTypes,
+    createShiftType,
+    updateShiftType,
+    updateShiftTypeStatus,
+    getAllHolidayLists,
 }
