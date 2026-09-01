@@ -121,6 +121,87 @@ const updateDepartmentStatus = async (id, isActive) => {
     }
 }
 
+const getAllDesignation = async () => {
+    try {
+        const res = await fetch(`${BASE_URL}/designations`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const createDesignation = async (formData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/designations`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const updateDesignation = async (id, formData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/designations/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const updateDesignationStatus = async (id, isActive) => {
+    try {
+        const res = await fetch(`${BASE_URL}/designations/${id}/status`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({ isActive })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
 export {
     getCompany,
     updateCompany,
@@ -128,4 +209,8 @@ export {
     createDepartment,
     updateDepartment,
     updateDepartmentStatus,
+    getAllDesignation,
+    createDesignation,
+    updateDesignation,
+    updateDesignationStatus,
 }
