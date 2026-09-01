@@ -156,7 +156,7 @@ const TeamAttendance = () => {
                                 <td>
                                     {attendance.overtimeHours > 0 &&
                                         attendance.overtimeStatus === "Pending" && (
-                                            <>
+                                            <div className="actions">
                                                 <Button
                                                     variant="success"
                                                     onClick={() => handleOvertime(attendance._id, true)}
@@ -172,12 +172,12 @@ const TeamAttendance = () => {
                                                 >
                                                     Reject OT
                                                 </Button>
-                                            </>
+                                            </div>
                                         )}
 
-                                    <button onClick={() => handleOpenCorrection(attendance)}>
+                                    <Button variant="primary" onClick={() => handleOpenCorrection(attendance)}>
                                         Request Correction
-                                    </button>
+                                    </Button>
                                 </td>
                             </tr>
                         ))}
@@ -219,8 +219,10 @@ const TeamAttendance = () => {
                         </select>
                     </label>
 
-                    <Button type="submit" variant="primary">Submit</Button>
-                    <Button variant="secondary" onClick={() => setSelectedAttendance(null)}>Cancel</Button>
+                    <div className="actions">
+                        <Button type="submit" variant="primary">Submit</Button>
+                        <Button variant="secondary" onClick={() => setSelectedAttendance(null)}>Cancel</Button>
+                    </div>
                 </form>
             </Modal>
         </div>

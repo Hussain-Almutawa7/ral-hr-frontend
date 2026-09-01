@@ -158,7 +158,7 @@ const AttendanceCorrections = ({ user }) => {
                                     )}
 
                                     {isManager && correction.status === "Corrected by HR" && (
-                                        <>
+                                        <div className="actions">
                                             <Button variant="success" onClick={() => handleApprove(correction._id)} disabled={actionLoading === correction._id}>
                                                 Approve
                                             </Button>
@@ -166,7 +166,7 @@ const AttendanceCorrections = ({ user }) => {
                                             <Button variant="danger" onClick={() => handleOpenReject(correction)} disabled={actionLoading === correction._id}>
                                                 Reject
                                             </Button>
-                                        </>
+                                        </div>
                                     )}
                                 </td>
                             </tr>
@@ -184,8 +184,10 @@ const AttendanceCorrections = ({ user }) => {
                         <input type="text" value={rejectionReason} onChange={e => setRejectionReason(e.target.value)} required />
                     </label>
 
-                    <Button type="submit" variant="danger">Reject</Button>
-                    <Button variant="secondary" onClick={() => setSelectedCorrection(null)}>Cancel</Button>
+                    <div className="actions">
+                        <Button type="submit" variant="danger">Reject</Button>
+                        <Button variant="secondary" onClick={() => setSelectedCorrection(null)}>Cancel</Button>
+                    </div>
                 </form>
             </Modal>
         </div>

@@ -57,7 +57,7 @@ const CheckIn = () => {
                 <Message type="error">{error}</Message>
                 <Message>{message}</Message>
 
-                <div>
+                <div className="actions">
                     <Button variant="sucess" onClick={() => handleCheckin("IN")} disabled={isSubmitting}>
                         {isSubmitting ? "Processing..." : "Check In"}
                     </Button>
