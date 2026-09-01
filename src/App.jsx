@@ -34,10 +34,11 @@ import Documents from "./pages/documents/Documents";
 // SETTINGS PAGES
 import Banks from './pages/settings/Banks';
 import Company from './pages/settings/Company';
+import ShiftTypes from './pages/settings/ShiftTypes';
+import HolidayLists from './pages/settings/HolidayLists';
 import Designations from './pages/settings/Designations';
 import Departments from './pages/settings/Departments';
 import DocumentTypes from './pages/settings/DocumentTypes';
-import ShiftTypes from './pages/settings/ShiftTypes';
 import ShiftAssignments from './pages/settings/ShiftAssignments';
 
 // NOTIFICATION PAGES
@@ -98,6 +99,7 @@ const App = () => {
             <Route path='/settings/document-types' element={<DocumentTypes user={user} />} />
             <Route path='/settings/shift-types' element={<ShiftTypes user={user} />} />
             <Route path='/settings/shift-assignments' element={<ShiftAssignments user={user} />} />
+            <Route path='/settings/holiday-lists' element={<HolidayLists user={user} />} />
 
             {/* NOTIFICATION ROUTES */}
 
