@@ -463,6 +463,84 @@ const getAllHolidayLists = async () => {
     }
 }
 
+const getAllShiftAssignments = async () => {
+    try {
+        const res = await fetch(`${BASE_URL}/shift-assignments`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const createShiftAssignment = async (formData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/shift-assignments`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const updateShiftAssignment = async (id, formData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/shift-assignments/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const getAllEmployees = async () => {
+    try {
+        const res = await fetch(`${BASE_URL}/employees`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
 export {
     getCompany,
     updateCompany,
@@ -487,4 +565,8 @@ export {
     updateShiftType,
     updateShiftTypeStatus,
     getAllHolidayLists,
+    getAllShiftAssignments,
+    createShiftAssignment,
+    updateShiftAssignment,
+    getAllEmployees,
 }
