@@ -126,7 +126,7 @@ const Designations = () => {
             <Message type="error">{error}</Message>
             <Message>{message}</Message>
 
-            <div className="actions">
+            <div className="actions page-actions">
                 <Button onClick={handleOpenCreate}>Add Designation</Button>
             </div>
 

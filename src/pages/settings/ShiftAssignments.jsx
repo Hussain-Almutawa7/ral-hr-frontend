@@ -132,7 +132,7 @@ const ShiftAssignments = ({ user }) => {
             <Message>{message}</Message>
 
             {canEdit && (
-                <div className="actions">
+                <div className="actions page-actions">
                     <Button onClick={handleOpenCreate}>Add Shift Assignment</Button>
                 </div>
             )}

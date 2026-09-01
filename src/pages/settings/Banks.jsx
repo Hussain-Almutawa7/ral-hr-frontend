@@ -9,7 +9,7 @@ import Modal from "../../components/common/Modal";
 
 const Banks = ({ user }) => {
     const canEdit = user.role === "HR Manager";
-    
+
     const [banks, setBanks] = useState([]);
 
     const [formData, setFormData] = useState({
@@ -129,7 +129,7 @@ const Banks = ({ user }) => {
             <Message>{message}</Message>
 
             {canEdit && (
-                <div className="actions">
+                <div className="actions page-actions">
                     <Button onClick={handleOpenCreate}>Add Bank</Button>
                 </div>
             )}

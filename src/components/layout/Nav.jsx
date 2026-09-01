@@ -14,10 +14,6 @@ const Nav = ({ user, setUser }) => {
             </Link>
 
             <div className="nav-right">
-                <span className="nav-user">
-                    {user.email}
-                </span>
-
                 <Link className="nav-link" to="/">
                     Home
                 </Link>

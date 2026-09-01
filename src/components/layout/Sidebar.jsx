@@ -88,12 +88,6 @@ const Sidebar = ({ user }) => {
                                 </NavLink>
                             </>
                         )}
-
-                        {isHRManager && (
-                            <NavLink to="/leave/types" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                                Leave Types
-                            </NavLink>
-                        )}
                     </div>
                 )}
 
@@ -127,6 +121,10 @@ const Sidebar = ({ user }) => {
 
                         <NavLink to="/settings/banks" className={({ isActive }) => `sidebar-link sidebar-sub-link ${isActive ? "active" : ""}`}>
                             Banks
+                        </NavLink>
+
+                        <NavLink to="/leave/types" className={({ isActive }) => `sidebar-link sidebar-sub-link ${isActive ? "active" : ""}`}>
+                            Leave Types
                         </NavLink>
 
                         <NavLink to="/settings/document-types" className={({ isActive }) => `sidebar-link sidebar-sub-link ${isActive ? "active" : ""}`}>

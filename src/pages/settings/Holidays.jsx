@@ -121,7 +121,7 @@ const Holidays = ({ user }) => {
             <Message>{message}</Message>
 
             {canEdit && (
-                <div className="actions">
+                <div className="actions page-actions">
                     <Button onClick={handleOpenCreate}>Add Holiday</Button>
                 </div>
             )}

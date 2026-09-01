@@ -203,7 +203,7 @@ const ShiftTypes = ({ user }) => {
             <Message>{message}</Message>
 
             {canEdit && (
-                <div className="actions">
+                <div className="actions page-actions">
                     <Button onClick={handleOpenCreate}>Add Shift Type</Button>
                 </div>
             )}

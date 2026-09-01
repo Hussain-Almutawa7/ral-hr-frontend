@@ -66,7 +66,7 @@ const AttendanceManagement = () => {
             <Message type="error">{error}</Message>
             <Message>{message}</Message>
 
-            <div>
+            <div className="actions page-actions">
                 <label>
                     Generate Attendance For
                     <input type="date" value={date} onChange={e => setDate(e.target.value)} />

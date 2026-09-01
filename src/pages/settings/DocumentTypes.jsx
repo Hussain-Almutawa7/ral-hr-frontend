@@ -135,7 +135,7 @@ const DocumentTypes = ({ user }) => {
             <Message>{message}</Message>
 
             {canEdit && (
-                <div className="actions">
+                <div className="actions page-actions">
                     <Button onClick={handleOpenCreate}>Add Document Type</Button>
                 </div>
             )}
