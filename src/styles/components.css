@@ -1,3 +1,45 @@
+/* CARDS */
+.card {
+    width: 100%;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-rule);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(43, 27, 61, 0.08);
+}
+
+.card header {
+    margin-bottom: 24px;
+}
+
+.card header h1 {
+    margin: 0 0 6px;
+    color: var(--color-ink);
+}
+
+.card header p {
+    margin: 0;
+    color: var(--color-soft);
+}
+
+/* AUTH */
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    background-color: var(--color-background);
+}
+
+.auth-card {
+    max-width: 440px;
+    padding: 32px;
+}
+
+.auth-actions .button {
+    flex: 1;
+}
+
 /*LOADING */
 .loading-state {
     min-height: 240px;
@@ -233,6 +275,10 @@ form textarea {
     color: var(--color-ink);
 
     outline: none;
+}
+
+form input[type="checkbox"] {
+    width: auto;
 }
 
 form input:focus,
