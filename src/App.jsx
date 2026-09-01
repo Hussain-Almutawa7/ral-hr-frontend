@@ -37,6 +37,7 @@ import Company from './pages/settings/Company';
 import Designations from './pages/settings/Designations';
 import Departments from './pages/settings/Departments';
 import DocumentTypes from './pages/settings/DocumentTypes';
+import ShiftTypes from './pages/settings/ShiftTypes';
 
 // NOTIFICATION PAGES
 
@@ -94,6 +95,7 @@ const App = () => {
             <Route path='/settings/designations' element={<Designations />} />
             <Route path='/settings/banks' element={<Banks user={user} />} />
             <Route path='/settings/document-types' element={<DocumentTypes user={user} />} />
+            <Route path='/settings/shift-types' element={<ShiftTypes user={user} />} />
 
             {/* NOTIFICATION ROUTES */}
 
