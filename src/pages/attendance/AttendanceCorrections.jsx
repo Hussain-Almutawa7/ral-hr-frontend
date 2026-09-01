@@ -28,7 +28,7 @@ const AttendanceCorrections = ({ user }) => {
     const [rejectionReason, setRejectionReason] = useState("");
 
     const isHR = ["HR Officer", "HR Manager"].includes(user.role)
-    const isManager = user.role === "Manager";
+    const canManageTeam = ["Manager", "HR Manager"].includes(user.role);
 
     const loadCorrections = async () => {
         try {
@@ -157,7 +157,7 @@ const AttendanceCorrections = ({ user }) => {
                                         </Button>
                                     )}
 
-                                    {isManager && correction.status === "Corrected by HR" && (
+                                    {canManageTeam && correction.status === "Corrected by HR" && correction.requestedBy?._id === user._id && (
                                         <div className="actions">
                                             <Button variant="success" onClick={() => handleApprove(correction._id)} disabled={actionLoading === correction._id}>
                                                 Approve

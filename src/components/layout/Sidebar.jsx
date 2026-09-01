@@ -6,7 +6,7 @@ const Sidebar = ({ user }) => {
     const isHR = ["HR Officer", "HR Manager"].includes(user.role);
     const isHRManager = user.role === "HR Manager";
     const isOperationalRole = ["Employee", "Manager", "HR Officer", "HR Manager"].includes(user.role);
-    const isManager = user.role === "Manager";
+   const canManageTeam = ["Manager", "HR Manager"].includes(user.role);
 
     return (
         <aside className="sidebar">
@@ -35,16 +35,16 @@ const Sidebar = ({ user }) => {
                             Check In / Out
                         </NavLink>
 
-                        {isManager && (
-                            <>
-                                <NavLink to="/attendance/team" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                                    Team Attendance
-                                </NavLink>
+                        {canManageTeam && (
+                            <NavLink to="/attendance/team" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                                Team Attendance
+                            </NavLink>
+                        )}
 
-                                <NavLink to="/attendance/corrections" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                                    Attendance Corrections
-                                </NavLink>
-                            </>
+                        {user.role === "Manager" && (
+                            <NavLink to="/attendance/corrections" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                                Attendance Corrections
+                            </NavLink>
                         )}
 
                         {isHR && (
