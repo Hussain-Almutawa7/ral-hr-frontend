@@ -1,4 +1,3 @@
-import './App.css'
 import { Routes, Route } from "react-router"
 import { useState } from "react"
 
@@ -17,7 +16,7 @@ import EmployeeList from "./pages/employees/EmployeeList";
 import AttendanceManagement from './pages/attendance/AttendanceManagement';
 import AttendanceCorrections from './pages/attendance/AttendanceCorrections';
 import TeamAttendance from './pages/attendance/TeamAttendance';
-import MyAttendance from "./pages/attendance/MyAttendance";
+import MyAttendance from './pages/attendance/MyAttendance';
 import CheckIn from './pages/attendance/CheckIn';
 
 // LEAVE PAGES
@@ -37,6 +36,15 @@ import Documents from "./pages/documents/Documents";
 // USER MANAGEMENT PAGES
 
 // SETTINGS PAGES
+import Banks from './pages/settings/Banks';
+import Holidays from './pages/settings/Holidays';
+import Company from './pages/settings/Company';
+import ShiftTypes from './pages/settings/ShiftTypes';
+import HolidayLists from './pages/settings/HolidayLists';
+import Designations from './pages/settings/Designations';
+import Departments from './pages/settings/Departments';
+import DocumentTypes from './pages/settings/DocumentTypes';
+import ShiftAssignments from './pages/settings/ShiftAssignments';
 
 // NOTIFICATION PAGES
 
@@ -97,6 +105,15 @@ const App = () => {
             {/* USER MANAGEMENT ROUTES */}
 
             {/* SETTINGS ROUTES */}
+            <Route path='/settings/company' element={<Company user={user} />} />
+            <Route path='/settings/departments' element={<Departments />} />
+            <Route path='/settings/designations' element={<Designations />} />
+            <Route path='/settings/banks' element={<Banks user={user} />} />
+            <Route path='/settings/document-types' element={<DocumentTypes user={user} />} />
+            <Route path='/settings/shift-types' element={<ShiftTypes user={user} />} />
+            <Route path='/settings/shift-assignments' element={<ShiftAssignments user={user} />} />
+            <Route path='/settings/holiday-lists' element={<HolidayLists user={user} />} />
+            <Route path='/settings/holidays' element={<Holidays user={user} />} />
 
             {/* NOTIFICATION ROUTES */}
 

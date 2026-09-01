@@ -28,7 +28,7 @@ const AttendanceCorrections = ({ user }) => {
     const [rejectionReason, setRejectionReason] = useState("");
 
     const isHR = ["HR Officer", "HR Manager"].includes(user.role)
-    const isManager = user.role === "Manager";
+    const canManageTeam = ["Manager", "HR Manager"].includes(user.role);
 
     const loadCorrections = async () => {
         try {
@@ -119,60 +119,62 @@ const AttendanceCorrections = ({ user }) => {
             {corrections.length === 0 ? (
                 <p>No attendance corrections found.</p>
             ) : (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Employee</th>
-                            <th>Date</th>
-                            <th>Reason</th>
-                            <th>Requested In</th>
-                            <th>Requested Out</th>
-                            <th>Requested Status</th>
-                            <th>Status</th>
-                            <th>Rejection Reason</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {corrections.map(correction => (
-                            <tr key={correction._id}>
-                                <td>{correction.employee?.nameEn || "-"}</td>
-                                <td>{formatDate(correction.date)}</td>
-                                <td>{correction.reason}</td>
-                                <td>{formatTime(correction.requestedInTime)}</td>
-                                <td>{formatTime(correction.requestedOutTime)}</td>
-                                <td>{correction.requestedStatus || "-"}</td>
-
-                                <td>
-                                    <StatusBadge status={correction.status} />
-                                </td>
-
-                                <td>{correction.rejectionReason || "-"}</td>
-
-                                <td>
-                                    {isHR && correction.status === "Requested" && (
-                                        <Button variant="primary" onClick={() => handleCorrect(correction._id)} disabled={actionLoading === correction._id}>
-                                            Correct
-                                        </Button>
-                                    )}
-
-                                    {isManager && correction.status === "Corrected by HR" && (
-                                        <div className="actions">
-                                            <Button variant="success" onClick={() => handleApprove(correction._id)} disabled={actionLoading === correction._id}>
-                                                Approve
-                                            </Button>
-
-                                            <Button variant="danger" onClick={() => handleOpenReject(correction)} disabled={actionLoading === correction._id}>
-                                                Reject
-                                            </Button>
-                                        </div>
-                                    )}
-                                </td>
+                <div className="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Date</th>
+                                <th>Reason</th>
+                                <th>Requested In</th>
+                                <th>Requested Out</th>
+                                <th>Requested Status</th>
+                                <th>Status</th>
+                                <th>Rejection Reason</th>
+                                <th>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+
+                        <tbody>
+                            {corrections.map(correction => (
+                                <tr key={correction._id}>
+                                    <td>{correction.employee?.nameEn || "-"}</td>
+                                    <td>{formatDate(correction.date)}</td>
+                                    <td>{correction.reason}</td>
+                                    <td>{formatTime(correction.requestedInTime)}</td>
+                                    <td>{formatTime(correction.requestedOutTime)}</td>
+                                    <td>{correction.requestedStatus || "-"}</td>
+
+                                    <td>
+                                        <StatusBadge status={correction.status} />
+                                    </td>
+
+                                    <td className="table-text">{correction.rejectionReason || "-"}</td>
+
+                                    <td>
+                                        {isHR && correction.status === "Requested" && (
+                                            <Button variant="primary" onClick={() => handleCorrect(correction._id)} disabled={actionLoading === correction._id}>
+                                                Correct
+                                            </Button>
+                                        )}
+
+                                        {canManageTeam && correction.status === "Corrected by HR" && correction.requestedBy?._id === user._id && (
+                                            <div className="actions">
+                                                <Button variant="success" onClick={() => handleApprove(correction._id)} disabled={actionLoading === correction._id}>
+                                                    Approve
+                                                </Button>
+
+                                                <Button variant="danger" onClick={() => handleOpenReject(correction)} disabled={actionLoading === correction._id}>
+                                                    Reject
+                                                </Button>
+                                            </div>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
 
             <Modal isOpen={selectedCorrection !== null} onClose={() => setSelectedCorrection(null)}>

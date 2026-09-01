@@ -34,7 +34,6 @@ const MyAttendance = () => {
     return (
         <div>
             <h1>My Attendance</h1>
-            <Link to="/attendance/check-in">Check In / Out</Link>
 
             <Message type="error">{error}</Message>
 
