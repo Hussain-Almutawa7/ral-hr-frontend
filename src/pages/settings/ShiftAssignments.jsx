@@ -184,7 +184,7 @@ const ShiftAssignments = ({ user }) => {
 
                     <label>
                         Employee
-                        <select name="employee" value={formData.employee} onChange={handleChange} required>
+                        <select name="employee" value={formData.employee} onChange={handleChange} disabled={selectedAssignment !== null} required>
                             <option value="">Select Employee</option>
 
                             {employees.map(employee => (

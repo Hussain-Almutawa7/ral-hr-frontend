@@ -445,24 +445,6 @@ const updateShiftTypeStatus = async (id, isActive) => {
     }
 }
 
-const getAllHolidayLists = async () => {
-    try {
-        const res = await fetch(`${BASE_URL}/holiday-lists`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) throw new Error(data.err);
-
-        return data;
-    } catch (e) {
-        throw Error(e.message);
-    }
-}
-
 const getAllShiftAssignments = async () => {
     try {
         const res = await fetch(`${BASE_URL}/shift-assignments`, {
@@ -541,6 +523,66 @@ const getAllEmployees = async () => {
     }
 }
 
+const getAllHolidayLists = async () => {
+    try {
+        const res = await fetch(`${BASE_URL}/holiday-lists`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const createHolidayList = async (formData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/holiday-lists`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const updateHolidayList = async (id, formData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/holiday-lists/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
 export {
     getCompany,
     updateCompany,
@@ -564,9 +606,11 @@ export {
     createShiftType,
     updateShiftType,
     updateShiftTypeStatus,
-    getAllHolidayLists,
     getAllShiftAssignments,
     createShiftAssignment,
     updateShiftAssignment,
     getAllEmployees,
+    getAllHolidayLists,
+    createHolidayList,
+    updateHolidayList,
 }
