@@ -583,6 +583,66 @@ const updateHolidayList = async (id, formData) => {
     }
 }
 
+const getAllHolidays = async () => {
+    try {
+        const res = await fetch(`${BASE_URL}/holidays`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const createHoliday = async (formData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/holidays`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const updateHoliday = async (id, formData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/holidays/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
 export {
     getCompany,
     updateCompany,
@@ -613,4 +673,7 @@ export {
     getAllHolidayLists,
     createHolidayList,
     updateHolidayList,
+    getAllHolidays,
+    createHoliday,
+    updateHoliday,
 }
