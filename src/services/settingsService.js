@@ -202,6 +202,87 @@ const updateDesignationStatus = async (id, isActive) => {
     }
 }
 
+const getAllBanks = async () => {
+    try {
+        const res = await fetch(`${BASE_URL}/banks`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const createBank = async formData => {
+    try {
+        const res = await fetch(`${BASE_URL}/banks`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const updateBank = async (id, formData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/banks/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const updateBankStatus = async (id, isActive) => {
+    try {
+        const res = await fetch(`${BASE_URL}/banks/${id}/status`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({ isActive })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
 export {
     getCompany,
     updateCompany,
@@ -213,4 +294,8 @@ export {
     createDesignation,
     updateDesignation,
     updateDesignationStatus,
+    getAllBanks, 
+    createBank,
+    updateBank,
+    updateBankStatus,
 }
