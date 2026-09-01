@@ -36,14 +36,15 @@ const LeaveRequestForm = (props) => {
 
     const findAllocationForType = (leaveTypeId) => {
         return allocations.find(
-            (allocation) => allocation.leaveType === leaveTypeId && allocation.employee === props.user.employee
+            (allocation) => allocation.leaveType._id === leaveTypeId && allocation.employee._id === props.user.employee
         )
     }
 
     const handleChange = (event) => {
+        const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
         setFormData({
             ...formData,
-            [event.target.name]: event.target.value,
+            [event.target.name]: value,
         })
     }
 
@@ -91,9 +92,9 @@ const LeaveRequestForm = (props) => {
                 />
 
                 <label htmlFor="isHalfDay">Is Half Day?</label>
-                <input type="checkbox" id="isHalfDay" name="isHalfDay" onChange={handleChange} />
+                <input type="checkbox" id="isHalfDay" name="isHalfDay" onChange={handleChange} checked={!!formData.isHalfDay} />
 
-                <label htmlFor="halfDayDate">Is Half Day?</label>
+                <label htmlFor="halfDayDate">Half Day Date</label>
                 <input
                     type="date"
                     name="halfDayDate"

@@ -27,6 +27,9 @@ import LeaveRequestDetails from "./pages/leave/LeaveRequestDetails"
 import LeaveTypes from './pages/leave/LeaveTypes';
 import LeaveManagement from './pages/leave/LeaveManagement';
 import LeaveTypeForm from './pages/leave/LeaveTypeForm';
+import LeaveAllocations from './pages/leave/LeaveAllocations';
+import LeaveAllocationForm from './pages/leave/LeaveAllocationForm'
+import LeaveCalendar from './pages/leave/LeaveCalendar'
 
 // DOCUMENT PAGES
 import Documents from "./pages/documents/Documents";
@@ -81,7 +84,12 @@ const App = () => {
             <Route path="/leave/:requestId" element={<LeaveRequestDetails user={user} />} />
             <Route path="/leave/types" element={<LeaveTypes user={user} />} />
             <Route path="/leave/types/new" element={<LeaveTypeForm user={user} />} />
+            <Route path='/leave/types/:leaveTypeId/edit' element={<LeaveTypeForm user={user} />} />
             <Route path="/leave/manage" element={<LeaveManagement user={user} />} />
+            <Route path="/leave/allocations" element={<LeaveAllocations user={user} />} />
+            <Route path="/leave/allocations/new" element={<LeaveAllocationForm user={user} />} />
+            <Route path="/leave/allocations/:leaveAllocationId/edit" element={<LeaveAllocationForm user={user} />} />
+            <Route path="/leave/calendar" element={<LeaveCalendar user={user} />} />
 
             {/* DOCUMENT ROUTES */}
             <Route path="/documents" element={<Documents />} />

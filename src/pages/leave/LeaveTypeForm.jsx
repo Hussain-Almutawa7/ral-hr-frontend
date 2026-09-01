@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import * as leaveTypeService from "../../services/leaveTypeService"
+
+const HR_ROLES = ["HR Officer", "HR Manager"]
 
 const initialState = {
     leaveTypeName: "",
@@ -8,34 +10,62 @@ const initialState = {
     maxDaysPerYear: "",
     payFraction: "",
     requiresServiceMonths: "",
-    requiresDocument: "",
-    carryForward: "",
+    requiresDocument: false,
+    carryForward: false,
     maxCarryForward: "",
-    encashable: "",
-    countsTowardService: "",
-    oncePerLifetime: "",
+    encashable: false,
+    countsTowardService: false,
+    oncePerLifetime: false,
     maxLifeTimeUses: "",
-    includesHolidays: "",
+    includesHolidays: false,
     genderRestriction: "",
     nextLeaveType: "",
     lawArticle: "",
-    usesProration: "",
+    usesProration: false,
 }
 
 const LeaveTypeForm = (props) => {
     const [formData, setFormData] = useState(initialState)
     const [leaveTypes, setLeaveTypes] = useState([])
+    const { leaveTypeId } = useParams()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const fetchAllTypes = async () => {
+            const typesData = await leaveTypeService.index()
+            setLeaveTypes(typesData)
+
+            if (leaveTypeId) {
+                const foundType = typesData.find((type) => type._id === leaveTypeId)
+                if (foundType) {
+                    setFormData(foundType)
+                }
+            }
+        }
+        fetchAllTypes()
+    }, [leaveTypeId])
+
+    if (!HR_ROLES.includes(props.user.role)) {
+        return <p>Not authorized to view this page.</p>
+    }
 
     const handleChange = (event) => {
+        const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
         setFormData({
             ...formData,
-            [event.target.name]: event.target.value,
+            [event.target.name]: value,
         })
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const newType = await leaveTypeService.create(formData);
+
+        if (leaveTypeId) {
+            await leaveTypeService.update(leaveTypeId, formData)
+        } else {
+            await leaveTypeService.create(formData)
+        }
+
         navigate("/leave/types")
         setFormData(initialState)
     }
@@ -60,28 +90,28 @@ const LeaveTypeForm = (props) => {
                 <input type="number" name="requiresServiceMonths" id="requiresServiceMonths" value={formData.requiresServiceMonths || ''} onChange={handleChange} />
 
                 <label htmlFor="requiresDocument">Requires Document?</label>
-                <input type="checkbox" name="requiresDocument" id="requiresDocument" onChange={handleChange} />
+                <input type="checkbox" name="requiresDocument" id="requiresDocument" onChange={handleChange} checked={!!formData.requiresDocument} />
 
                 <label htmlFor="carryForward">Carry Forward?</label>
-                <input type="checkbox" name="carryForward" id="carryForward" onChange={handleChange} />
+                <input type="checkbox" name="carryForward" id="carryForward" onChange={handleChange} checked={!!formData.carryForward} />
 
                 <label htmlFor="maxCarryForward">Max Carry Forward</label>
                 <input type="number" name="maxCarryForward" id="maxCarryForward" value={formData.maxCarryForward || ''} onChange={handleChange} />
 
                 <label htmlFor="encashable">Encashable?</label>
-                <input type="checkbox" name="encashable" id="encashable" onChange={handleChange} />
+                <input type="checkbox" name="encashable" id="encashable" onChange={handleChange} checked={!!formData.encashable} />
 
                 <label htmlFor="countsTowardService">Counts Toward Service?</label>
-                <input type="checkbox" name="countsTowardService" id="countsTowardService" onChange={handleChange} />
+                <input type="checkbox" name="countsTowardService" id="countsTowardService" onChange={handleChange} checked={!!formData.countsTowardService} />
 
                 <label htmlFor="oncePerLifetime">Once Per Lifetime?</label>
-                <input type="checkbox" name="oncePerLifetime" id="oncePerLifetime" onChange={handleChange} />
+                <input type="checkbox" name="oncePerLifetime" id="oncePerLifetime" onChange={handleChange} checked={!!formData.oncePerLifetime} />
 
                 <label htmlFor="maxLifeTimeUses">Max Lifetime Uses</label>
                 <input type="number" name="maxLifeTimeUses" id="maxLifeTimeUses" value={formData.maxLifeTimeUses || ''} onChange={handleChange} />
 
                 <label htmlFor="includesHolidays">Includes Holidays?</label>
-                <input type="checkbox" name="includesHolidays" id="includesHolidays" onChange={handleChange} />
+                <input type="checkbox" name="includesHolidays" id="includesHolidays" onChange={handleChange} checked={!!formData.includesHolidays} />
 
                 <label htmlFor="genderRestriction">Gender Restriction</label>
                 <select name="genderRestriction" id="genderRestriction" value={formData.genderRestriction || ''} onChange={handleChange}>
@@ -90,11 +120,21 @@ const LeaveTypeForm = (props) => {
                     <option value="Female">Female</option>
                 </select>
 
+                <label htmlFor="nextLeaveType">Next Leave Type (rollover)</label>
+                <select name="nextLeaveType" id="nextLeaveType" value={formData.nextLeaveType || ''} onChange={handleChange}>
+                    <option value="">None</option>
+                    {leaveTypes.map((type) => (
+                        <option key={type._id} value={type._id}>
+                            {type.leaveTypeName}
+                        </option>
+                    ))}
+                </select>
+
                 <label htmlFor="lawArticle">Law Article</label>
                 <input type="text" name="lawArticle" id="lawArticle" value={formData.lawArticle || ''} onChange={handleChange} />
 
                 <label htmlFor="usesProration">Uses Proration?</label>
-                <input type="checkbox" name="usesProration" id="usesProration" onChange={handleChange} />
+                <input type="checkbox" name="usesProration" id="usesProration" onChange={handleChange} checked={!!formData.usesProration} />
 
                 <button type="submit">Submit</button>
             </form>

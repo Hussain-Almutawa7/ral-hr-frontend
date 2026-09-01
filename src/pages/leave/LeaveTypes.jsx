@@ -28,6 +28,7 @@ const LeaveTypes = (props) => {
                     <table>
                         <thead>
                             <tr>
+                                <th>Action</th>
                                 <th>Leave Type</th>
                                 <th>Leave Type (Arabic Name)</th>
                                 <th>Max Days Per Year</th>
@@ -45,7 +46,6 @@ const LeaveTypes = (props) => {
                                 <th>Next Leave Type</th>
                                 <th>Law Article</th>
                                 <th>Uses Proration</th>
-                                <th>Edit</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,6 +53,7 @@ const LeaveTypes = (props) => {
                                 <tr
                                     key={type._id}
                                 >
+                                    <td><button onClick={() => navigate(`/leave/types/${type._id}/edit`)}>Edit</button></td>
                                     <td>{formatValue(type.leaveTypeName)}</td>
                                     <td>{formatValue(type.leaveTypeNameAr)}</td>
                                     <td>{formatValue(type.maxDaysPerYear)}</td>

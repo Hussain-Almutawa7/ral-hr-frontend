@@ -3,6 +3,9 @@ import { useNavigate } from "react-router";
 import * as leaveRequestService from '../../services/leaveRequestService'
 import * as leaveTypeService from "../../services/leaveTypeService";
 import * as leaveAllocationService from "../../services/leaveAllocationService";
+import Modal from "../../components/common/Modal"
+import formatDate from "../../utils/formatDate"
+import StatusBadge from "../../components/common/StatusBadge"
 
 const HR_ROLES = ["HR Officer", "HR Manager"]
 
@@ -23,10 +26,14 @@ const LeaveManagement = (props) => {
     }, [])
 
     const isHR = HR_ROLES.includes(props.user.role)
+
+    if (!(isHR || props.user.role === "Manager")) {
+        return <p>Not authorized to view this page.</p>
+    }
+    
     const canReview = (request) => {
         return isHR || props.user.employee === request.approver._id
     }
-    const canAccessPage = isHR || props.user.role === "Manager"
     const reviewableRequests = leaveRequests.filter((request) => request.status !== "Draft")
 
     const handleApprove = async (requestId) => {
@@ -63,49 +70,56 @@ const LeaveManagement = (props) => {
     return (
         <div>
             <h1>Leave Management</h1>
-            {canAccessPage && (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Employee Name</th>
-                            <th>Leave Type</th>
-                            <th>From Date</th>
-                            <th>To Date</th>
-                            <th>Total Days</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Leave Type</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>Total Days</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {reviewableRequests.map((request) => (
+                        <tr
+                            key={request._id}
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => navigate(`/leave/${request._id}`)}
+                        >
+                            <td>{request.employee.nameEn}</td>
+                            <td>{request.leaveType.leaveTypeName}</td>
+                            <td>{formatDate(request.fromDate)}</td>
+                            <td>{formatDate(request.toDate)}</td>
+                            <td>{request.totalDays}</td>
+                            <td><StatusBadge status={request.status} /></td>
+                            <td>
+                                {canReview(request) && request.status === "Pending" && (
+                                    <>
+                                        <button onClick={(e) => { e.stopPropagation(); handleApprove(request._id) }}>
+                                            ✔️
+                                        </button>
+                                        <button onClick={(e) => { e.stopPropagation(); handleRejectClick(request._id) }}>
+                                            ✖️
+                                        </button>
+                                    </>
+                                )}
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {reviewableRequests.map((request) => (
-                            <tr
-                                key={request._id}
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => navigate(`/leave/${request._id}`)}
-                            >
-                                <td>{request.employee.nameEn}</td>
-                                <td>{request.leaveType.leaveTypeName}</td>
-                                <td>{new Date(request.fromDate).toLocaleDateString()}</td>
-                                <td>{new Date(request.toDate).toLocaleDateString()}</td>
-                                <td>{request.totalDays}</td>
-                                <td>{request.status}</td>
-                                <td>
-                                    {canReview(request) && request.status === "Pending" && (
-                                        <>
-                                            <button onClick={(e) => { e.stopPropagation(); handleApprove(request._id) }}>
-                                                ✔️
-                                            </button>
-                                            <button onClick={(e) => { e.stopPropagation(); handleRejectClick(request._id) }}>
-                                                ✖️
-                                            </button>
-                                        </>
-                                    )}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
+                    ))}
+                </tbody>
+            </table>
+            <Modal isOpen={!!rejectingRequestId} onClose={() => setRejectingRequestId(null)}>
+                <label htmlFor="rejectionReason">Reason for rejection:</label>
+                <textarea
+                    id="rejectionReason"
+                    value={rejectionReason}
+                    onChange={(e) => setRejectionReason(e.target.value)}
+                />
+                <button onClick={handleConfirmReject}>Confirm Rejection</button>
+            </Modal>
         </div>
     )
 }

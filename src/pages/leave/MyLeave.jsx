@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router";
 import * as leaveRequestService from '../../services/leaveRequestService'
+import formatDate from "../../utils/formatDate"
+import StatusBadge from "../../components/common/StatusBadge"
 
 const MyLeave = (props) => {
     const [leaveRequests, setLeaveRequests] = useState([])
@@ -40,10 +42,10 @@ const MyLeave = (props) => {
                             onClick={() => navigate(`/leave/${request._id}`)}
                         >
                             <td>{request.leaveType.leaveTypeName}</td>
-                            <td>{new Date(request.fromDate).toLocaleDateString()}</td>
-                            <td>{new Date(request.toDate).toLocaleDateString()}</td>
+                            <td>{formatDate(request.fromDate)}</td>
+                            <td>{formatDate(request.toDate)}</td>
                             <td>{request.totalDays}</td>
-                            <td>{request.status}</td>
+                            <td><StatusBadge status={request.status} /></td>
                         </tr>
                     ))}
                 </tbody>
