@@ -75,7 +75,49 @@ const createDepartment = async (formData) => {
 
         return data;
     } catch (e) {
-        throw Error(e.mesage);
+        throw Error(e.message);
+    }
+}
+
+const updateDepartment = async (id, formData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/departments/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const updateDepartmentStatus = async (id, isActive) => {
+    try {
+        const res = await fetch(`${BASE_URL}/departments/${id}/status`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({ isActive })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
     }
 }
 
@@ -84,4 +126,6 @@ export {
     updateCompany,
     getAllDepartments,
     createDepartment,
+    updateDepartment,
+    updateDepartmentStatus,
 }
