@@ -53,6 +53,7 @@ import ShiftAssignments from './pages/settings/ShiftAssignments';
 // NOTIFICATION PAGES
 
 // AUDIT LOG PAGES
+import AuditLogs from "./pages/audit/AuditLogs";
 
 const getUserFromToken = () => {
   const token = localStorage.getItem('token')
@@ -127,6 +128,7 @@ const App = () => {
             {/* NOTIFICATION ROUTES */}
 
             {/* AUDIT LOG ROUTES */}
+            <Route path="/audit-logs" element={<AuditLogs />} />
 
           </Route>
         )}
