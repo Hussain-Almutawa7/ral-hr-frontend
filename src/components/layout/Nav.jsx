@@ -20,9 +20,12 @@ const handleSignOut = () => {
                     Home
                 </Link>
 
-                <button className="nav-signout" onClick={handleSignOut}>
-                    Sign Out
-                </button>
+                <Link className="nav-link" to="/">
+                    <button className="nav-signout" onClick={handleSignOut}>
+                        Sign Out
+                    </button>
+                </Link>
+
             </div>
         </nav>
     )

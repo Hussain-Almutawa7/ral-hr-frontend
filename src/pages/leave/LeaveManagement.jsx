@@ -31,7 +31,7 @@ const LeaveManagement = (props) => {
     if (!(isHR || props.user.role === "Manager")) {
         return <p>Not authorized to view this page.</p>
     }
-    
+
     const canReview = (request) => {
         return isHR || props.user.employee === request.approver._id
     }
@@ -113,13 +113,21 @@ const LeaveManagement = (props) => {
                 </tbody>
             </table>
             <Modal isOpen={!!rejectingRequestId} onClose={() => setRejectingRequestId(null)}>
-                <label htmlFor="rejectionReason">Reason for rejection:</label>
-                <textarea
-                    id="rejectionReason"
-                    value={rejectionReason}
-                    onChange={(e) => setRejectionReason(e.target.value)}
-                />
-                <button onClick={handleConfirmReject}>Confirm Rejection</button>
+                <div className="modal-content">
+                    <h2>Reject Leave Request</h2>
+                    <p>This will notify the employee. Please explain why this request is being rejected.</p>
+                    <div className="form-group">
+                        <label htmlFor="rejectionReason">Reason for rejection:</label>
+                        <textarea
+                            id="rejectionReason"
+                            value={rejectionReason}
+                            onChange={(e) => setRejectionReason(e.target.value)}
+                        />
+                    </div>
+                    <div className="modal-actions">
+                        <Button variant="danger" onClick={handleConfirmReject}>Confirm Rejection</Button>
+                    </div>
+                </div>
             </Modal>
         </div>
     )

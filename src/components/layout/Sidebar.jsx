@@ -96,21 +96,19 @@ const Sidebar = ({ user }) => {
                         <NavLink to="/leave/calendar" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
                             Leave Calendar
                         </NavLink>
+                        {(user.role === "Manager" || isHR) && (
+                            <NavLink to="/leave/manage" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                                Leave Management
+                            </NavLink>
+                        )}
 
                         {isHR && (
-                            <>
-                                <NavLink to="/leave/manage" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                                    Leave Management
-                                </NavLink>
-
-                                <NavLink to="/leave/allocations" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                                    Leave Allocations
-                                </NavLink>
-                            </>
+                            <NavLink to="/leave/allocations" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                                Leave Allocations
+                            </NavLink>
                         )}
                     </div>
                 )}
-
 
                 {isOperationalRole && (
                     <div className="sidebar-section">
@@ -121,7 +119,6 @@ const Sidebar = ({ user }) => {
                         </NavLink>
                     </div>
                 )}
-
 
                 {isHR && (
                     <div className="sidebar-section">
@@ -168,6 +165,15 @@ const Sidebar = ({ user }) => {
                         </NavLink>
                     </div>
                 )}
+
+                <div className="sidebar-section">
+                    <p className="sidebar-section-title">Notifications</p>
+
+                    <NavLink to="/notifications" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                        Notifications
+                    </NavLink>
+                </div>
+
             </nav>
         </aside>
     );

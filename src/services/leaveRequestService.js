@@ -22,15 +22,33 @@ const show = async (leaveRequestId) => {
     }
 }
 
-const create = async (leaveRequestFormData) => {
+const downloadRequestDocument = async (requestId, fileName) => {
+    try {
+        const res = await fetch(`${BASE_URL}/requests/${requestId}/document`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        })
+        if (!res.ok) throw new Error("Failed to download document")
+
+        const blob = await res.blob()
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement("a")
+        a.href = url
+        a.download = fileName || "document"
+        a.click()
+        window.URL.revokeObjectURL(url)
+    } catch (error) {
+        throw Error(error.message);
+    }
+}
+
+const create = async formData => {
     try {
         const res = await fetch(`${BASE_URL}/requests`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
-                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(leaveRequestFormData),
+            body: formData,
         })
         const data = await res.json()
 
@@ -53,6 +71,10 @@ const submit = async (leaveRequestId) => {
             },
         })
         const data = await res.json()
+
+        if (!res.ok) {
+            throw new Error(data.err || "Something went wrong")
+        }
 
         return data
     } catch (error) {
@@ -110,6 +132,7 @@ const calendar = async () => {
 export {
     index,
     show,
+    downloadRequestDocument,
     create,
     submit,
     review,

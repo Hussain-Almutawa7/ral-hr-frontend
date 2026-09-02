@@ -5,6 +5,7 @@ import Modal from "../../components/common/Modal"
 import formatDate from "../../utils/formatDate"
 import Button from "../../components/common/Button"
 import LoadingSpinner from "../../components/common/LoadingSpinner"
+import Message from "../../components/common/Message"
 
 const HR_ROLES = ["HR Officer", "HR Manager"]
 
@@ -18,6 +19,9 @@ const LeaveRequestDetails = (props) => {
     const [showRejectReason, setShowRejectReason] = useState(false)
     const [rejectionReason, setRejectionReason] = useState('')
 
+    const [error, setError] = useState('')
+    const [actionLoading, setActionLoading] = useState(null)
+
     useEffect(() => {
         const fetchRequest = async () => {
             const requestData = await leaveRequestService.show(requestId)
@@ -27,8 +31,12 @@ const LeaveRequestDetails = (props) => {
     }, [requestId])
 
     const handleSubmitRequest = async () => {
-        await leaveRequestService.submit(requestId)
-        navigate("/leave")
+        try {
+            await leaveRequestService.submit(requestId)
+            navigate("/leave")
+        } catch (error) {
+            setError(error.message)
+        }
     }
 
     const handleApprove = async () => {
@@ -75,6 +83,19 @@ const LeaveRequestDetails = (props) => {
         }
     }
 
+    const handleDownloadDocument = async (request) => {
+        try {
+            setActionLoading(request._id)
+            setError('')
+            await leaveRequestService.downloadRequestDocument(request._id, "leave-document")
+        } catch (e) {
+            setError(e.message)
+        }
+        finally {
+            setActionLoading(null)
+        }
+    }
+
     if (!request) {
         return <LoadingSpinner>Loading...</LoadingSpinner>
     }
@@ -85,30 +106,77 @@ const LeaveRequestDetails = (props) => {
     if (isOwner) {
         return (
             <div>
+                {error && <Message type="error">{error}</Message>}
                 <h1>{request.leaveType.leaveTypeName}</h1>
-                <p>From: {formatDate(request.fromDate)}</p>
-                <p>To: {formatDate(request.toDate)}</p>
-                {request.isHalfDay && (
-                    <p>Half Day Date: {formatDate(request.halfDayDate)}</p>
-                )}
-                <p>Total Days: {request.totalDays}</p>
-                {request.reason && <p>Reason: {request.reason}</p>}
-                <p>Status: {request.status}</p>
 
-                {request.status === "Rejected" && request.rejectionReason !== null && (
-                    <p>Rejection Reason: {request.rejectionReason}</p>
-                )}
-                {request.status === "Cancelled" && request.cancellationReason !== null && (
-                    <p>Cancellation Reason: {request.cancellationReason}</p>
-                )}
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>From</th>
+                            <td>{formatDate(request.fromDate)}</td>
+                        </tr>
+                        <tr>
+                            <th>To</th>
+                            <td>{formatDate(request.toDate)}</td>
+                        </tr>
+                        {request.isHalfDay && (
+                            <tr>
+                                <th>Half Day Date</th>
+                                <td>{formatDate(request.halfDayDate)}</td>
+                            </tr>
+                        )}
+                        <tr>
+                            <th>Total Days</th>
+                            <td>{request.totalDays}</td>
+                        </tr>
+                        {request.reason && (
+                            <tr>
+                                <th>Reason</th>
+                                <td>{request.reason}</td>
+                            </tr>
+                        )}
+                        <tr>
+                            <th>Status</th>
+                            <td>{request.status}</td>
+                        </tr>
+                        {request.status === "Rejected" && request.rejectionReason !== null && (
+                            <tr>
+                                <th>Rejection Reason</th>
+                                <td>{request.rejectionReason}</td>
+                            </tr>
+                        )}
+                        {request.status === "Cancelled" && request.cancellationReason !== null && (
+                            <tr>
+                                <th>Cancellation Reason</th>
+                                <td>{request.cancellationReason}</td>
+                            </tr>
+                        )}
+                        {request.documentFileId && (
+                            <tr>
+                                <th>Supporting Document</th>
+                                <td>
+                                    <Button
+                                        variant="secondary"
+                                        onClick={() => handleDownloadDocument(request)}
+                                        disabled={actionLoading === request._id}
+                                    >
+                                        Download
+                                    </Button>
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
 
-                {request.status === "Draft" && (
-                    <Button onClick={handleSubmitRequest}>Submit Request</Button>
-                )}
+                <div className="actions">
+                    {request.status === "Draft" && (
+                        <Button onClick={handleSubmitRequest}>Submit Request</Button>
+                    )}
 
-                {(request.status === "Draft" || request.status === "Pending" || request.status === "Approved") && (
-                    <Button variant="secondary" onClick={handleCancelClick}>Cancel Request</Button>
-                )}
+                    {(request.status === "Draft" || request.status === "Pending" || request.status === "Approved") && (
+                        <Button variant="secondary" onClick={handleCancelClick}>Cancel Request</Button>
+                    )}
+                </div>
 
                 <Modal isOpen={showCancelReason} onClose={() => setShowCancelReason(false)}>
                     <div className="modal-content">
@@ -136,26 +204,79 @@ const LeaveRequestDetails = (props) => {
         return (
             <div>
                 <h1>{request.leaveType.leaveTypeName}</h1>
-                <p>Employee: {request.employee.nameEn}</p>
-                <p>Approver: {request.approver.nameEn}</p>
-                <p>From: {formatDate(request.fromDate)}</p>
-                <p>To: {formatDate(request.toDate)}</p>
-                {request.isHalfDay && (
-                    <p>Half Day Date: {formatDate(request.halfDayDate)}</p>
-                )}
-                <p>Total Days: {request.totalDays}</p>
-                {request.reason && <p>Reason: {request.reason}</p>}
-                <p>Status: {request.status}</p>
 
-                {request.balanceAtRequest !== null && (
-                    <p>Balance At Request: {request.balanceAtRequest}</p>
-                )}
-                {request.status === "Rejected" && request.rejectionReason !== null && (
-                    <p>Rejection Reason: {request.rejectionReason}</p>
-                )}
-                {request.status === "Cancelled" && request.cancellationReason !== null && (
-                    <p>Cancellation Reason: {request.cancellationReason}</p>
-                )}
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Employee</th>
+                            <td>{request.employee.nameEn}</td>
+                        </tr>
+                        <tr>
+                            <th>Approver</th>
+                            <td>{request.approver.nameEn}</td>
+                        </tr>
+                        <tr>
+                            <th>From</th>
+                            <td>{formatDate(request.fromDate)}</td>
+                        </tr>
+                        <tr>
+                            <th>To</th>
+                            <td>{formatDate(request.toDate)}</td>
+                        </tr>
+                        {request.isHalfDay && (
+                            <tr>
+                                <th>Half Day Date</th>
+                                <td>{formatDate(request.halfDayDate)}</td>
+                            </tr>
+                        )}
+                        <tr>
+                            <th>Total Days</th>
+                            <td>{request.totalDays}</td>
+                        </tr>
+                        {request.reason && (
+                            <tr>
+                                <th>Reason</th>
+                                <td>{request.reason}</td>
+                            </tr>
+                        )}
+                        <tr>
+                            <th>Status</th>
+                            <td>{request.status}</td>
+                        </tr>
+                        {request.balanceAtRequest !== null && (
+                            <tr>
+                                <th>Balance At Request</th>
+                                <td>{request.balanceAtRequest}</td>
+                            </tr>
+                        )}
+                        {request.status === "Rejected" && request.rejectionReason !== null && (
+                            <tr>
+                                <th>Rejection Reason</th>
+                                <td>{request.rejectionReason}</td>
+                            </tr>
+                        )}
+                        {request.status === "Cancelled" && request.cancellationReason !== null && (
+                            <tr>
+                                <th>Cancellation Reason</th>
+                                <td>{request.cancellationReason}</td>
+                            </tr>
+                        )}
+                        {request.documentFileId && (
+                            <tr>
+                                <th>Supporting Document</th>
+                                <td>
+                                    <Button
+                                        variant="secondary"
+                                        onClick={() => handleDownloadDocument(request)}
+                                        disabled={actionLoading === request._id}
+                                    >
+                                        Download
+                                    </Button>
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
 
                 {request.status === "Pending" && (
                     <div>

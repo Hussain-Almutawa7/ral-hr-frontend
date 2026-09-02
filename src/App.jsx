@@ -51,6 +51,7 @@ import DocumentTypes from './pages/settings/DocumentTypes';
 import ShiftAssignments from './pages/settings/ShiftAssignments';
 
 // NOTIFICATION PAGES
+import Notifications from "./pages/notifications/Notifications";
 
 // AUDIT LOG PAGES
 import AuditLogs from "./pages/audit/AuditLogs";
@@ -126,7 +127,7 @@ const App = () => {
             <Route path='/settings/holidays' element={<Holidays user={user} />} />
 
             {/* NOTIFICATION ROUTES */}
-
+            <Route path='/notifications' element={<Notifications user={user} />} />
             {/* AUDIT LOG ROUTES */}
             <Route path="/audit-logs" element={<AuditLogs />} />
 
