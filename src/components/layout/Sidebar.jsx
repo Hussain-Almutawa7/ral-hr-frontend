@@ -15,14 +15,17 @@ const Sidebar = ({ user }) => {
             </div>
 
             <nav className="sidebar-nav">
+                <div className="sidebar-section">
+                    <p className="sidebar-section-title">Overview</p>
 
-                <NavLink to="/" end className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                    Dashboard
-                </NavLink>
+                    <NavLink to="/" end className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                        Dashboard
+                    </NavLink>
 
-                <NavLink to="/profile" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                    My Profile
-                </NavLink>
+                    <NavLink to="/profile" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                        My Profile
+                    </NavLink>
+                </div>
 
                 {isHR && (
                     <div className="sidebar-section">
@@ -165,7 +168,6 @@ const Sidebar = ({ user }) => {
                         </NavLink>
                     </div>
                 )}
-
             </nav>
         </aside>
     );
