@@ -90,29 +90,41 @@ const LeaveTypeForm = (props) => {
                 <label htmlFor="requiresServiceMonths">Requires Service Months</label>
                 <input type="number" name="requiresServiceMonths" id="requiresServiceMonths" value={formData.requiresServiceMonths || ''} onChange={handleChange} />
 
-                <label htmlFor="requiresDocument">Requires Document?</label>
-                <input type="checkbox" name="requiresDocument" id="requiresDocument" onChange={handleChange} checked={!!formData.requiresDocument} />
+                <div className="checkbox-label">
+                    <label htmlFor="requiresDocument">Requires Document?</label>
+                    <input type="checkbox" name="requiresDocument" id="requiresDocument" onChange={handleChange} checked={!!formData.requiresDocument} />
+                </div>
 
-                <label htmlFor="carryForward">Carry Forward?</label>
-                <input type="checkbox" name="carryForward" id="carryForward" onChange={handleChange} checked={!!formData.carryForward} />
+                <div className="checkbox-label">
+                    <label htmlFor="carryForward">Carry Forward?</label>
+                    <input type="checkbox" name="carryForward" id="carryForward" onChange={handleChange} checked={!!formData.carryForward} />
+                </div>
 
                 <label htmlFor="maxCarryForward">Max Carry Forward</label>
                 <input type="number" name="maxCarryForward" id="maxCarryForward" value={formData.maxCarryForward || ''} onChange={handleChange} />
 
-                <label htmlFor="encashable">Encashable?</label>
-                <input type="checkbox" name="encashable" id="encashable" onChange={handleChange} checked={!!formData.encashable} />
+                <div className="checkbox-label">
+                    <label htmlFor="encashable">Encashable?</label>
+                    <input type="checkbox" name="encashable" id="encashable" onChange={handleChange} checked={!!formData.encashable} />
+                </div>
 
-                <label htmlFor="countsTowardService">Counts Toward Service?</label>
-                <input type="checkbox" name="countsTowardService" id="countsTowardService" onChange={handleChange} checked={!!formData.countsTowardService} />
+                <div className="checkbox-label">
+                    <label htmlFor="countsTowardService">Counts Toward Service?</label>
+                    <input type="checkbox" name="countsTowardService" id="countsTowardService" onChange={handleChange} checked={!!formData.countsTowardService} />
+                </div>
 
-                <label htmlFor="oncePerLifetime">Once Per Lifetime?</label>
-                <input type="checkbox" name="oncePerLifetime" id="oncePerLifetime" onChange={handleChange} checked={!!formData.oncePerLifetime} />
+                <div className="checkbox-label">
+                    <label htmlFor="oncePerLifetime">Once Per Lifetime?</label>
+                    <input type="checkbox" name="oncePerLifetime" id="oncePerLifetime" onChange={handleChange} checked={!!formData.oncePerLifetime} />
+                </div>
 
                 <label htmlFor="maxLifeTimeUses">Max Lifetime Uses</label>
                 <input type="number" name="maxLifeTimeUses" id="maxLifeTimeUses" value={formData.maxLifeTimeUses || ''} onChange={handleChange} />
 
-                <label htmlFor="includesHolidays">Includes Holidays?</label>
-                <input type="checkbox" name="includesHolidays" id="includesHolidays" onChange={handleChange} checked={!!formData.includesHolidays} />
+                <div className="checkbox-label">
+                    <label htmlFor="includesHolidays">Includes Holidays?</label>
+                    <input type="checkbox" name="includesHolidays" id="includesHolidays" onChange={handleChange} checked={!!formData.includesHolidays} />
+                </div>
 
                 <label htmlFor="genderRestriction">Gender Restriction</label>
                 <select name="genderRestriction" id="genderRestriction" value={formData.genderRestriction || ''} onChange={handleChange}>
@@ -134,9 +146,11 @@ const LeaveTypeForm = (props) => {
                 <label htmlFor="lawArticle">Law Article</label>
                 <input type="text" name="lawArticle" id="lawArticle" value={formData.lawArticle || ''} onChange={handleChange} />
 
-                <label htmlFor="usesProration">Uses Proration?</label>
-                <input type="checkbox" name="usesProration" id="usesProration" onChange={handleChange} checked={!!formData.usesProration} />
-
+                <div className="checkbox-label">
+                    <label htmlFor="usesProration">Uses Proration?</label>
+                    <input type="checkbox" name="usesProration" id="usesProration" onChange={handleChange} checked={!!formData.usesProration} />
+                </div>
+                
                 <Button type="submit">Submit</Button>
             </form>
         </main>

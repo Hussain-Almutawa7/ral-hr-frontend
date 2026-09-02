@@ -100,9 +100,11 @@ const LeaveRequestForm = (props) => {
                     onChange={handleChange}
                 />
 
-                <label htmlFor="isHalfDay">Is Half Day?</label>
-                <input type="checkbox" id="isHalfDay" name="isHalfDay" onChange={handleChange} checked={!!formData.isHalfDay} />
-
+                <div className="checkbox-label">
+                    <label htmlFor="isHalfDay">Is Half Day?</label>
+                    <input type="checkbox" id="isHalfDay" name="isHalfDay" onChange={handleChange} checked={!!formData.isHalfDay} />
+                </div>
+                
                 <label htmlFor="halfDayDate">Half Day Date</label>
                 <input
                     type="date"
