@@ -10,14 +10,17 @@ import SignInForm from "./pages/auth/SignInForm";
 import Layout from "./components/layout/Layout";
 
 // PEOPLE PAGES
+import MyProfile from "./pages/employees/MyProfile";
 import EmployeeList from "./pages/employees/EmployeeList";
+import EmployeeForm from "./pages/employees/EmployeeForm";
+import EmployeeDetails from "./pages/employees/EmployeeDetails";
 
 // ATTENDANCE PAGES
-import AttendanceManagement from './pages/attendance/AttendanceManagement';
-import AttendanceCorrections from './pages/attendance/AttendanceCorrections';
-import TeamAttendance from './pages/attendance/TeamAttendance';
-import MyAttendance from './pages/attendance/MyAttendance';
 import CheckIn from './pages/attendance/CheckIn';
+import MyAttendance from './pages/attendance/MyAttendance';
+import TeamAttendance from './pages/attendance/TeamAttendance';
+import AttendanceCorrections from './pages/attendance/AttendanceCorrections';
+import AttendanceManagement from './pages/attendance/AttendanceManagement';
 
 // LEAVE PAGES
 import MyLeave from "./pages/leave/MyLeave";
@@ -77,7 +80,11 @@ const App = () => {
             <Route path="/" element={<Dashboard user={user} />} />
 
             {/* PEOPLE ROUTES */}
+            <Route path="/profile" element={<MyProfile />} />
             <Route path="/employees" element={<EmployeeList />} />
+            <Route path="/employees/new" element={<EmployeeForm />} />
+            <Route path="/employees/:employeeId" element={<EmployeeDetails />} />
+            <Route path="/employees/:employeeId/edit" element={<EmployeeForm />} />
 
             {/* ATTENDANCE ROUTES */}
             <Route path="/attendance" element={<MyAttendance />} />

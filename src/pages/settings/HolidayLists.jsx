@@ -194,7 +194,7 @@ const HolidayLists = ({ user }) => {
                         <p>Weekly Off Days</p>
 
                         {days.map(day => (
-                            <label key={day}>
+                            <label key={day} className="checkbox-label">
                                 <input type="checkbox" value={day} checked={formData.weeklyOffDays.includes(day)} onChange={handleWeeklyOffDayChange} />
                                 {day}
                             </label>

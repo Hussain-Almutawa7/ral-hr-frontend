@@ -211,7 +211,7 @@ const DocumentTypes = ({ user }) => {
                         <input type="text" name="nameAr" value={formData.nameAr} onChange={handleChange} />
                     </label>
 
-                    <label>
+                    <label className="checkbox-label">
                         <input type="checkbox" name="hasExpiry" checked={formData.hasExpiry} onChange={handleChange} />
                         Has Expiry Date
                     </label>
