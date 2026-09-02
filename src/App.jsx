@@ -11,6 +11,8 @@ import Layout from "./components/layout/Layout";
 
 // PEOPLE PAGES
 import EmployeeList from "./pages/employees/EmployeeList";
+import EmployeeDetails from "./pages/employees/EmployeeDetails";
+import EmployeeForm from "./pages/employees/EmployeeForm";
 
 // ATTENDANCE PAGES
 import AttendanceManagement from './pages/attendance/AttendanceManagement';
@@ -78,6 +80,8 @@ const App = () => {
 
             {/* PEOPLE ROUTES */}
             <Route path="/employees" element={<EmployeeList />} />
+            <Route path="/employees/:employeeId" element={<EmployeeDetails />} />
+            <Route path="/employees/:employeeId/edit" element={<EmployeeForm />} />
 
             {/* ATTENDANCE ROUTES */}
             <Route path="/attendance" element={<MyAttendance />} />
