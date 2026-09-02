@@ -58,5 +58,7 @@ const updateEmployeeStatus = async (id, statusData) => {
 }
 
 export {
-    getAllEmployees
+    getAllEmployees,
+    getEmployeeById,
+    updateEmployeeStatus,
 }
