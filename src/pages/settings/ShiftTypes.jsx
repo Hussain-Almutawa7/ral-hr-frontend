@@ -340,24 +340,24 @@ const ShiftTypes = ({ user }) => {
                         <p>Working Days</p>
 
                         {days.map(day => (
-                            <label key={day}>
+                            <label key={day} className="checkbox-label">
                                 <input type="checkbox" value={day} checked={formData.workingDays.includes(day)} onChange={handleWorkingDayChange} />
                                 {day}
                             </label>
                         ))}
                     </div>
 
-                    <label>
+                    <label className="checkbox-label">
                         <input type="checkbox" name="markLateEntry" checked={formData.markLateEntry} onChange={handleChange} />
                         Mark Late Entry
                     </label>
 
-                    <label>
+                    <label className="checkbox-label">
                         <input type="checkbox" name="markEarlyExit" checked={formData.markEarlyExit} onChange={handleChange} />
                         Mark Early Exit
                     </label>
 
-                    <label>
+                    <label className="checkbox-label">
                         <input type="checkbox" name="allowOvertime" checked={formData.allowOvertime} onChange={handleChange} />
                         Allow Overtime
                     </label>

@@ -312,6 +312,20 @@ form select {
     background-size: 14px;
 }
 
+.checkbox-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    margin-bottom: 10px;;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
 /* TABLES */
 table {
     width: 100%;

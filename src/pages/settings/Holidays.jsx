@@ -192,7 +192,7 @@ const Holidays = ({ user }) => {
                         <input type="text" name="description" value={formData.description} onChange={handleChange} required />
                     </label>
 
-                    <label>
+                    <label className="checkbox-label">
                         <input type="checkbox" name="isConfirmed" checked={formData.isConfirmed} onChange={handleChange} />
                         Confirmed Holiday
                     </label>
