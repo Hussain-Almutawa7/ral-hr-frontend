@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 
 import { getAllAuditLogs } from "../../services/auditService";
+import formatValue from "../../utils/formatValue";
 
+import Button from "../../components/common/Button";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
 import Message from "../../components/common/Message";
 
 const AuditLogs = () => {
     const [auditLogs, setAuditLogs] = useState([]);
+
+    const [search, setSearch] = useState("");
+    const [tableFilter, setTableFilter] = useState("");
+    const [actionFilter, setActionFilter] = useState("");
+
+    const tableNames = [...new Set(auditLogs.map(log => log.tableName))];
 
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(true);
@@ -35,11 +43,13 @@ const AuditLogs = () => {
         return new Date(date).toLocaleString();
     }
 
-    const formatValue = value => {
-        if (value === null || value === undefined || value === "") return "-";
+    const filteredAuditLogs = auditLogs.filter(log => {
+        const matchesSearch = log.changedBy?.email?.toLowerCase().includes(search.toLocaleLowerCase());
+        const matchesTable = tableFilter === "" || log.tableName === tableFilter;
+        const matchesAction = actionFilter === "" || log.action === actionFilter;
 
-        return value;
-    }
+        return matchesSearch && matchesTable && matchesAction;
+    });
 
     if (isLoading) return <LoadingSpinner message="Loading audit logs..." />
 
@@ -49,8 +59,54 @@ const AuditLogs = () => {
 
             <Message type="error">{error}</Message>
 
-            {auditLogs.length === 0 ? (
-                <p>No audit logs found</p>
+            <div className="filters">
+                <div className="filter-field">
+                    <label htmlFor="auditSearch">Changed By</label>
+                    <input
+                        id="auditSearch"
+                        type="text"
+                        placeholder="Search email"
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                    />
+                </div>
+
+                <div className="filter-field">
+                    <label htmlFor="tableFilter">Table</label>
+
+                    <select id="tableFilter" value={tableFilter} onChange={e => setTableFilter(e.target.value)}>
+                        <option value="">All Tables</option>
+
+                        {tableNames.map(tableName => (
+                            <option key={tableName} value={tableName}>
+                                {tableName}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="filter-field">
+                    <label htmlFor="actionFilter">Action</label>
+
+                    <select id="actionFilter" value={actionFilter} onChange={e => setActionFilter(e.target.value)}>
+                        <option value="">All Actions</option>
+                        <option value="Create">Create</option>
+                        <option value="Update">Update</option>
+                        <option value="Approve">Approve</option>
+                        <option value="Cancel">Cancel</option>
+                        <option value="Correct">Correct</option>
+                        <option value="Reject">Reject</option>
+                        <option value="Password Reset">Password Reset</option>
+                    </select>
+                </div>
+
+                <Button variant="secondary" onClick={() => { setSearch(""); setTableFilter(""); setActionFilter(""); }}>
+                    Clear Filters
+                </Button>
+            </div>
+
+            {filteredAuditLogs.length === 0 ? (
+                <p>No audit logs match the selected filters.</p>
             ) : (
                 <div className="table-container">
                     <table>
@@ -70,7 +126,7 @@ const AuditLogs = () => {
                         </thead>
 
                         <tbody>
-                            {auditLogs.map(log => (
+                            {filteredAuditLogs.map(log => (
                                 <tr key={log._id}>
                                     <td>{formatDateTime(log.changedAt)}</td>
                                     <td>{log.tableName}</td>

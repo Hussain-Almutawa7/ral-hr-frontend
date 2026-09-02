@@ -814,3 +814,67 @@ a.dashboard-card:hover {
 .read-btn {
     width: 10rem;
 }
+
+/* ATTENDANCE GENERATE */
+.attendance-generate {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+.attendance-generate-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.attendance-generate-field label {
+    color: var(--color-ink);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.attendance-generate-field input {
+    min-width: 200px;
+    padding: 10px 12px;
+    background-color: var(--color-white);
+    color: var(--color-ink);
+    border: 1px solid var(--color-rule);
+    border-radius: var(--border-radius);
+    outline: none;
+}
+
+/* FILTERS */
+.filters {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.filter-field {
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-field label {
+    color: var(--color-ink);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.filter-field input,
+.filter-field select {
+    width: 100%;
+    padding: 10px 12px;
+    background-color: var(--color-white);
+    color: var(--color-ink);
+    border: 1px solid var(--color-rule);
+    border-radius: var(--border-radius);
+    outline: none;
+}
