@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllUsers, createUser, updateUser, updateUserStatus } from "../../services/userService";
+import { getAllUsers, createUser, updateUser, updateUserStatus, resetUserPassword } from "../../services/userService";
 import { getAllEmployees } from "../../services/employeeService";
 
 import Button from "../../components/common/Button";
@@ -24,11 +24,19 @@ const UserManagement = () => {
         employee: "",
         email: "",
         password: "",
+        confirmPassword: "",
         role: "Employee"
     });
 
+    const [passwordData, setPasswordData] = useState({
+        password: "",
+        confirmPassword: ""
+    });
+
     const [selectedUser, setSelectedUser] = useState(null);
+
     const [isModal, setIsModal] = useState(false);
+    const [isPasswordModal, setIsPasswordModal] = useState(false);
 
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
@@ -64,6 +72,7 @@ const UserManagement = () => {
             employee: "",
             email: "",
             password: "",
+            confirmPassword: "",
             role: "Employee"
         });
 
@@ -76,9 +85,10 @@ const UserManagement = () => {
         setSelectedUser(user);
 
         setFormData({
-            employee: user.employee?._id || user.employee || "",
+            employee: "",
             email: user.email || "",
             password: "",
+            confirmPassword: "",
             role: user.role || "Employee"
         });
 
@@ -87,8 +97,25 @@ const UserManagement = () => {
         setIsModal(true);
     }
 
+    const handleOpenPassword = user => {
+        setSelectedUser(user);
+
+        setPasswordData({
+            password: "",
+            confirmPassword: ""
+        });
+
+        setError("");
+        setMessage("");
+        setIsPasswordModal(true);
+    }
+
     const handleChange = e => {
-        setFormData({  ...formData, [e.target.name]: e.target.value });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+
+    const handlePasswordChange = e => {
+        setPasswordData({ ...passwordData, [e.target.name]: e.target.value });
     }
 
     const handleSubmit = async e => {
@@ -100,20 +127,22 @@ const UserManagement = () => {
             setMessage("");
 
             if (selectedUser) {
-                const updateData = {
+                await updateUser(selectedUser._id, {
                     email: formData.email,
                     role: formData.role
-                };
-
-                if (formData.password) {
-                    updateData.password = formData.password;
-                }
-
-                await updateUser(selectedUser._id, updateData);
+                });
 
                 setMessage("User updated successfully.");
             } else {
-                await createUser(formData);
+                if (formData.password !== formData.confirmPassword)
+                    throw new Error("Passwords do not match.");
+
+                await createUser({
+                    employee: formData.employee,
+                    email: formData.email,
+                    password: formData.password,
+                    role: formData.role
+                });
 
                 setMessage("User created successfully.");
             }
@@ -129,6 +158,30 @@ const UserManagement = () => {
         }
     }
 
+    const handleResetPassword = async e => {
+        e.preventDefault();
+
+        try {
+            setIsSubmitting(true);
+            setError("");
+            setMessage("");
+
+            if (passwordData.password !== passwordData.confirmPassword)
+                throw new Error("Passwords do not match.");
+
+            await resetUserPassword(selectedUser._id, passwordData.password);
+
+            setMessage("Password reset successfully.");
+
+            setIsPasswordModal(false);
+            setSelectedUser(null);
+        } catch (e) {
+            setError(e.message);
+        } finally {
+            setIsSubmitting(false);
+        }
+    }
+
     const handleStatus = async user => {
         try {
             setActionLoading(user._id);
@@ -137,7 +190,7 @@ const UserManagement = () => {
 
             await updateUserStatus(user._id, !user.isActive);
 
-            setMessage(user.isActive ? "User deactivated successfully."  : "User activated successfully.");
+            setMessage(user.isActive ? "User deactivated successfully." : "User activated successfully.");
 
             await loadUsers();
         } catch (e) {
@@ -204,7 +257,11 @@ const UserManagement = () => {
                                                 Edit
                                             </Button>
 
-                                            <Button variant={user.isActive ? "danger" : "success"} onClick={() => handleStatus(user)} disabled={actionLoading === user._id} >
+                                            <Button variant="secondary" onClick={() => handleOpenPassword(user)}>
+                                                Reset Password
+                                            </Button>
+
+                                            <Button variant={user.isActive ? "danger" : "success"} onClick={() => handleStatus(user)} disabled={actionLoading === user._id}>
                                                 {user.isActive ? "Deactivate" : "Activate"}
                                             </Button>
                                         </div>
@@ -218,9 +275,7 @@ const UserManagement = () => {
 
             <Modal isOpen={isModal} onClose={() => setIsModal(false)}>
                 <form onSubmit={handleSubmit}>
-                    <h2>
-                        {selectedUser ? "Edit User" : "Add User"}
-                    </h2>
+                    <h2>{selectedUser ? "Edit User" : "Add User"}</h2>
 
                     {!selectedUser && (
                         <label htmlFor="employee">
@@ -253,11 +308,19 @@ const UserManagement = () => {
                         </select>
                     </label>
 
-                    <label htmlFor="password">
-                        {selectedUser ? "New Password (optional)" : "Password"}
+                    {!selectedUser && (
+                        <>
+                            <label htmlFor="password">
+                                Password
+                                <input id="password" name="password" type="password" value={formData.password} onChange={handleChange} required />
+                            </label>
 
-                        <input id="password" name="password" type="password" value={formData.password} onChange={handleChange} required={!selectedUser}/>
-                    </label>
+                            <label htmlFor="confirmPassword">
+                                Confirm Password
+                                <input id="confirmPassword" name="confirmPassword" type="password" value={formData.confirmPassword} onChange={handleChange} required />
+                            </label>
+                        </>
+                    )}
 
                     <div className="actions">
                         <Button type="submit" disabled={isSubmitting}>
@@ -265,6 +328,36 @@ const UserManagement = () => {
                         </Button>
 
                         <Button variant="secondary" onClick={() => setIsModal(false)}>
+                            Cancel
+                        </Button>
+                    </div>
+                </form>
+            </Modal>
+
+            <Modal isOpen={isPasswordModal} onClose={() => setIsPasswordModal(false)}>
+                <form onSubmit={handleResetPassword}>
+                    <h2>Reset Password</h2>
+
+                    <p>
+                        Reset password for {selectedUser?.employee?.nameEn || selectedUser?.email}
+                    </p>
+
+                    <label htmlFor="newPassword">
+                        New Password
+                        <input id="newPassword" name="password" type="password" value={passwordData.password} onChange={handlePasswordChange} required />
+                    </label>
+
+                    <label htmlFor="confirmNewPassword">
+                        Confirm Password
+                        <input id="confirmNewPassword" name="confirmPassword" type="password" value={passwordData.confirmPassword} onChange={handlePasswordChange} required />
+                    </label>
+
+                    <div className="actions">
+                        <Button type="submit" disabled={isSubmitting}>
+                            {isSubmitting ? "Resetting..." : "Reset Password"}
+                        </Button>
+
+                        <Button variant="secondary" onClick={() => setIsPasswordModal(false)}>
                             Cancel
                         </Button>
                     </div>

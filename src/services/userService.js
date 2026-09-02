@@ -81,9 +81,31 @@ const updateUserStatus = async (id, isActive) => {
     }
 }
 
+const resetUserPassword = async (id, password) => {
+    try {
+        const res = await fetch(`${BASE_URL}/users/${id}/password`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({ password })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
 export {
     getAllUsers,
     createUser,
     updateUser,
-    updateUserStatus
+    updateUserStatus,
+    resetUserPassword,
 }
