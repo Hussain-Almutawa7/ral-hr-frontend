@@ -66,11 +66,11 @@ const AttendanceManagement = () => {
             <Message type="error">{error}</Message>
             <Message>{message}</Message>
 
-            <div className="actions page-actions">
-                <label>
-                    Generate Attendance For
-                    <input type="date" value={date} onChange={e => setDate(e.target.value)} />
-                </label>
+            <div className="attendance-generate">
+                <div className="attendance-generate-field">
+                    <label htmlFor="attendanceDate"> Generate Attendance For</label>
+                    <input id="attendanceDate" type="date" value={date} onChange={e => setDate(e.target.value)} />
+                </div>
 
                 <Button variant="primary" onClick={handleGenerate} disabled={isGenerating}>
                     {isGenerating ? "Generating..." : "Generate"}
