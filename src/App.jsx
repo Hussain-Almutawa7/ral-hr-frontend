@@ -80,6 +80,7 @@ const App = () => {
 
             {/* PEOPLE ROUTES */}
             <Route path="/employees" element={<EmployeeList />} />
+            <Route path="/employees/new" element={<EmployeeForm />} />
             <Route path="/employees/:employeeId" element={<EmployeeDetails />} />
             <Route path="/employees/:employeeId/edit" element={<EmployeeForm />} />
 

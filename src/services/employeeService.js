@@ -18,6 +18,45 @@ const getAllEmployees = async () => {
     }
 }
 
+const getEmployeeById = async id => {
+    try {
+        const res = await fetch(`${BASE_URL}/employees/${id}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const updateEmployeeStatus = async (id, statusData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/employees/${id}/status`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(statusData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
 export {
     getAllEmployees
 }

@@ -241,6 +241,17 @@
     border: 1px solid var(--color-rule);
 }
 
+.status-suspended {
+    background-color: #FFF4E5;
+    color: var(--color-warning);
+}
+
+.status-left {
+    background-color: var(--color-card);
+    color: var(--color-mid);
+    border: 1px solid var(--color-rule);
+}
+
 /* ACTIONS */
 .actions {
     display: flex;
