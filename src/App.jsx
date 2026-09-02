@@ -37,6 +37,7 @@ import LeaveCalendar from './pages/leave/LeaveCalendar'
 import Documents from "./pages/documents/Documents";
 
 // USER MANAGEMENT PAGES
+import UserManagement from "./pages/users/UserManagement";
 
 // SETTINGS PAGES
 import Banks from './pages/settings/Banks';
@@ -53,6 +54,7 @@ import ShiftAssignments from './pages/settings/ShiftAssignments';
 import Notifications from "./pages/notifications/Notifications";
 
 // AUDIT LOG PAGES
+import AuditLogs from "./pages/audit/AuditLogs";
 
 const getUserFromToken = () => {
   const token = localStorage.getItem('token')
@@ -111,6 +113,7 @@ const App = () => {
             <Route path="/documents" element={<Documents user={user} />} />
 
             {/* USER MANAGEMENT ROUTES */}
+            <Route path="/users" element={<UserManagement />} />
 
             {/* SETTINGS ROUTES */}
             <Route path='/settings/company' element={<Company user={user} />} />
@@ -126,6 +129,7 @@ const App = () => {
             {/* NOTIFICATION ROUTES */}
             <Route path='/notifications' element={<Notifications user={user} />} />
             {/* AUDIT LOG ROUTES */}
+            <Route path="/audit-logs" element={<AuditLogs />} />
 
           </Route>
         )}

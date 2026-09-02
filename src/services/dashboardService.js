@@ -1,8 +1,8 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/api`;
 
-const getAllAuditLogs = async () => {
+const getDashboard = async () => {
     try {
-        const res = await fetch(`${BASE_URL}/audit-logs`, {
+        const res = await fetch(`${BASE_URL}/dashboard`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -19,5 +19,5 @@ const getAllAuditLogs = async () => {
 }
 
 export {
-    getAllAuditLogs,
+    getDashboard,
 }

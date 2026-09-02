@@ -15,14 +15,17 @@ const Sidebar = ({ user }) => {
             </div>
 
             <nav className="sidebar-nav">
+                <div className="sidebar-section">
+                    <p className="sidebar-section-title">Overview</p>
 
-                <NavLink to="/" end className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                    Dashboard
-                </NavLink>
+                    <NavLink to="/" end className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                        Dashboard
+                    </NavLink>
 
-                <NavLink to="/profile" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                    My Profile
-                </NavLink>
+                    <NavLink to="/profile" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                        My Profile
+                    </NavLink>
+                </div>
 
                 {isHR && (
                     <div className="sidebar-section">
@@ -30,6 +33,20 @@ const Sidebar = ({ user }) => {
 
                         <NavLink to="/employees" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
                             Employees
+                        </NavLink>
+                    </div>
+                )}
+
+                {isHRManager && (
+                    <div className="sidebar-section">
+                        <p className="sidebar-section-title">Admin</p>
+
+                        <NavLink to="/users" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                            User Management
+                        </NavLink>
+
+                        <NavLink to="/audit-logs" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                            Audit Logs
                         </NavLink>
                     </div>
                 )}
@@ -86,15 +103,12 @@ const Sidebar = ({ user }) => {
                         )}
 
                         {isHR && (
-                            <>
-                                <NavLink to="/leave/allocations" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                                    Leave Allocations
-                                </NavLink>
-                            </>
+                            <NavLink to="/leave/allocations" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                                Leave Allocations
+                            </NavLink>
                         )}
                     </div>
                 )}
-
 
                 {isOperationalRole && (
                     <div className="sidebar-section">
@@ -105,7 +119,6 @@ const Sidebar = ({ user }) => {
                         </NavLink>
                     </div>
                 )}
-
 
                 {isHR && (
                     <div className="sidebar-section">
@@ -156,8 +169,8 @@ const Sidebar = ({ user }) => {
                 <div className="sidebar-section">
                     <p className="sidebar-section-title">Notifications</p>
 
-                    <NavLink to="/notifications" className={({ isActive }) => `sidebar-link sidebar-sub-link ${isActive ? "active" : ""}`}>
-                        Notification
+                    <NavLink to="/notifications" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                        Notifications
                     </NavLink>
                 </div>
 
