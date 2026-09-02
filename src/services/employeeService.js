@@ -57,8 +57,52 @@ const updateEmployeeStatus = async (id, statusData) => {
     }
 }
 
+const createEmployee = async (formData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/employees`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
+const updateEmployee = async (id, formData) => {
+    try {
+        const res = await fetch(`${BASE_URL}/employees/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.err);
+
+        return data;
+    } catch (e) {
+        throw Error(e.message);
+    }
+}
+
 export {
     getAllEmployees,
     getEmployeeById,
     updateEmployeeStatus,
+    createEmployee,
+    updateEmployee,
 }

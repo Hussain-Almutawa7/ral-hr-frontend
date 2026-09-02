@@ -318,12 +318,24 @@ form select {
     align-items: center;
     gap: 8px;
     width: fit-content;
-    margin-bottom: 10px;;
+    margin-bottom: 10px;
 }
 
 .checkbox-label input[type="checkbox"] {
     width: auto;
     margin: 0;
+}
+
+.employee-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 24px;
+}
+
+@media (max-width: 800px) {
+    .employee-form-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* TABLES */
