@@ -107,7 +107,7 @@ const App = () => {
             <Route path="/leave/calendar" element={<LeaveCalendar user={user} />} />
 
             {/* DOCUMENT ROUTES */}
-            <Route path="/documents" element={<Documents />} />
+            <Route path="/documents" element={<Documents user={user} />} />
 
             {/* USER MANAGEMENT ROUTES */}
 

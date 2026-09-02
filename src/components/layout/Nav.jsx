@@ -1,10 +1,12 @@
-import { Link } from "react-router";
+import { Link, useNavigate} from "react-router";
 
 const Nav = ({ user, setUser }) => {
+    const navigate = useNavigate();
 
     const handleSignOut = () => {
         localStorage.removeItem("token");
         setUser(null);
+        navigate("/sign-in");
     }
 
     return (
