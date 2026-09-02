@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import * as leaveTypeService from "../../services/leaveTypeService"
+import Button from "../../components/common/Button";
 
 const HR_ROLES = ["HR Officer", "HR Manager"]
 
@@ -136,7 +137,7 @@ const LeaveTypeForm = (props) => {
                 <label htmlFor="usesProration">Uses Proration?</label>
                 <input type="checkbox" name="usesProration" id="usesProration" onChange={handleChange} checked={!!formData.usesProration} />
 
-                <button type="submit">Submit</button>
+                <Button type="submit">Submit</Button>
             </form>
         </main>
     )

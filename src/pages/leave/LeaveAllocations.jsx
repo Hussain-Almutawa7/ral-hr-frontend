@@ -4,6 +4,8 @@ import * as leaveAllocationService from "../../services/leaveAllocationService"
 import { useNavigate } from "react-router"
 import formatValue from "../../utils/formatValue";
 import formatDate from "../../utils/formatDate"
+import Button from "../../components/common/Button";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
 
 const HR_ROLES = ["HR Officer", "HR Manager"]
 
@@ -35,11 +37,13 @@ const LeaveAllocations = (props) => {
 
     return (
         <div>
-            <button onClick={() => navigate(`/leave/allocations/new`)}>Add a Leave Allocation</button>
+            <h1>Leave Allocations</h1>
+            <div className="actions page-actions">
+                <Button variant="primary" onClick={() => navigate(`/leave/allocations/new`)}>Add a Leave Allocation</Button>
+            </div>
             <table>
                 <thead>
                     <tr>
-                        <th>Action</th>
                         <th>Employee</th>
                         <th>Leave Type</th>
                         <th>Period Start</th>
@@ -48,12 +52,12 @@ const LeaveAllocations = (props) => {
                         <th>Days Carried Forward</th>
                         <th>Days Taken</th>
                         <th>Remaining</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {leaveAllocations.map((allocation) => (
                         <tr key={allocation._id}>
-                            <td><button onClick={() => navigate(`/leave/allocations/${allocation._id}/edit`)}>Edit</button></td>
                             <td>{formatValue(allocation.employee.nameEn)}</td>
                             <td>{formatValue(allocation.leaveType.leaveTypeName)}</td>
                             <td>{formatDate(allocation.periodStart)}</td>
@@ -62,6 +66,7 @@ const LeaveAllocations = (props) => {
                             <td>{formatValue(allocation.daysCarriedForward)}</td>
                             <td>{formatValue(allocation.daysTaken)}</td>
                             <td>{formatValue(allocation.remainingDays)}</td>
+                            <td><Button variant="secondary" onClick={() => navigate(`/leave/allocations/${allocation._id}/edit`)}>Edit</Button></td>
                         </tr>
                     ))}
                 </tbody>

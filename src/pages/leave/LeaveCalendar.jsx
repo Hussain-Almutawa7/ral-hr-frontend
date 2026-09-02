@@ -47,6 +47,14 @@ const LeaveCalendar = (props) => {
 
         fetchAllRequests()
     }, [])
+
+    const eventStyleGetter = () => ({
+        style: { 
+            backgroundColor: '#59476B',
+            color: '#FFFFFF',
+        }
+    })
+
     return (
         <div>
             <Calendar
@@ -59,6 +67,7 @@ const LeaveCalendar = (props) => {
                 onNavigate={setDate}
                 view={view}
                 onView={setView}
+                eventPropGetter={eventStyleGetter}
             />
         </div>
     )

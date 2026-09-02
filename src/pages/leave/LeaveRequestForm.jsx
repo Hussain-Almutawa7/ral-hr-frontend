@@ -3,6 +3,8 @@ import { useNavigate } from "react-router";
 import * as leaveTypeService from "../../services/leaveTypeService"
 import * as leaveRequestService from "../../services/leaveRequestService"
 import * as leaveAllocationService from "../../services/leaveAllocationService"
+import Button from "../../components/common/Button";
+import Message from "../../components/common/Message";
 
 const initialState = {
     leaveType: "",
@@ -65,7 +67,7 @@ const LeaveRequestForm = (props) => {
         <main>
             <h1>Add a Request</h1>
             <form onSubmit={handleSubmit}>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
+                {error && <Message type="error">{error}</Message>}
                 <select name="leaveType" id="leaveType" required value={formData.leaveType} onChange={handleChange}>
                     <option value="">Select a leave type</option>
                     {leaveTypes.map((type) => {
@@ -127,7 +129,7 @@ const LeaveRequestForm = (props) => {
                     onChange={handleChange}
                 />
 
-                <button type="submit">Submit Request</button>
+                <Button type="submit">Submit Request</Button>
             </form>
 
         </main>

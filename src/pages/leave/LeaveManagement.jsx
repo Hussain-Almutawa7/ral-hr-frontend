@@ -6,6 +6,7 @@ import * as leaveAllocationService from "../../services/leaveAllocationService";
 import Modal from "../../components/common/Modal"
 import formatDate from "../../utils/formatDate"
 import StatusBadge from "../../components/common/StatusBadge"
+import Button from "../../components/common/Button";
 
 const HR_ROLES = ["HR Officer", "HR Manager"]
 
@@ -97,14 +98,14 @@ const LeaveManagement = (props) => {
                             <td><StatusBadge status={request.status} /></td>
                             <td>
                                 {canReview(request) && request.status === "Pending" && (
-                                    <>
-                                        <button onClick={(e) => { e.stopPropagation(); handleApprove(request._id) }}>
-                                            ✔️
-                                        </button>
-                                        <button onClick={(e) => { e.stopPropagation(); handleRejectClick(request._id) }}>
-                                            ✖️
-                                        </button>
-                                    </>
+                                    <div className="actions">
+                                        <Button variant="success" onClick={(e) => { e.stopPropagation(); handleApprove(request._id) }}>
+                                            Approve
+                                        </Button>
+                                        <Button variant="danger" onClick={(e) => { e.stopPropagation(); handleRejectClick(request._id) }}>
+                                            Reject
+                                        </Button>
+                                    </div>
                                 )}
                             </td>
                         </tr>
