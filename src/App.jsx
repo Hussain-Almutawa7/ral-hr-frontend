@@ -37,6 +37,7 @@ import LeaveCalendar from './pages/leave/LeaveCalendar'
 import Documents from "./pages/documents/Documents";
 
 // USER MANAGEMENT PAGES
+import UserManagement from "./pages/users/UserManagement";
 
 // SETTINGS PAGES
 import Banks from './pages/settings/Banks';
@@ -110,6 +111,7 @@ const App = () => {
             <Route path="/documents" element={<Documents user={user} />} />
 
             {/* USER MANAGEMENT ROUTES */}
+            <Route path="/users" element={<UserManagement />} />
 
             {/* SETTINGS ROUTES */}
             <Route path='/settings/company' element={<Company user={user} />} />

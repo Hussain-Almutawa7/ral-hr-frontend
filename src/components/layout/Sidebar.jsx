@@ -34,6 +34,16 @@ const Sidebar = ({ user }) => {
                     </div>
                 )}
 
+                {isHRManager && (
+                    <div className="sidebar-section">
+                        <p className="sidebar-section-title">Admin</p>
+
+                        <NavLink to="/users" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                            User Management
+                        </NavLink>
+                    </div>
+                )}
+
 
                 {isOperationalRole && (
                     <div className="sidebar-section">
