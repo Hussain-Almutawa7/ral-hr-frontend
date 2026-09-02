@@ -54,6 +54,10 @@ const submit = async (leaveRequestId) => {
         })
         const data = await res.json()
 
+        if (!res.ok) {
+            throw new Error(data.err || "Something went wrong")
+        }
+
         return data
     } catch (error) {
         throw Error(error.message)
