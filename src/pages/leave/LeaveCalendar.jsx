@@ -57,6 +57,7 @@ const LeaveCalendar = (props) => {
 
     return (
         <div>
+            <h1>Leave Calendar</h1>
             <Calendar
                 localizer={localizer}
                 events={events}

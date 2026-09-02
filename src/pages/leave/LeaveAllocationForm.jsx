@@ -23,7 +23,7 @@ const LeaveAllocationForm = (props) => {
 
     useEffect(() => {
         const fetchEmployees = async () => {
-            const employeeData = await employeeService.index()
+            const employeeData = await employeeService.getAllEmployees()
             setEmployees(employeeData)
         }
 

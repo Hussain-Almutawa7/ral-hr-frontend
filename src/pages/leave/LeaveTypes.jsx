@@ -24,6 +24,7 @@ const LeaveTypes = (props) => {
 
     return (
         <div>
+            <h1>Leave Types</h1>
             {isHR &&
                 <div>
                     <div className="actions page-actions">
