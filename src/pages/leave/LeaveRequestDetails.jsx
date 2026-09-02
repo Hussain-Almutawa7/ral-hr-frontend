@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router"
 import * as leaveRequestService from "../../services/leaveRequestService"
 import Modal from "../../components/common/Modal"
 import formatDate from "../../utils/formatDate"
+import Button from "../../components/common/Button"
+import LoadingSpinner from "../../components/common/LoadingSpinner"
 
 const HR_ROLES = ["HR Officer", "HR Manager"]
 
@@ -74,7 +76,7 @@ const LeaveRequestDetails = (props) => {
     }
 
     if (!request) {
-        return <p>Loading...</p>
+        return <LoadingSpinner>Loading...</LoadingSpinner>
     }
 
     const isOwner = props.user.employee === request.employee._id
@@ -90,32 +92,41 @@ const LeaveRequestDetails = (props) => {
                     <p>Half Day Date: {formatDate(request.halfDayDate)}</p>
                 )}
                 <p>Total Days: {request.totalDays}</p>
-                <p>Reason: {request.reason}</p>
+                {request.reason && <p>Reason: {request.reason}</p>}
                 <p>Status: {request.status}</p>
 
-                {request.status === "Rejected" && (
+                {request.status === "Rejected" && request.rejectionReason !== null && (
                     <p>Rejection Reason: {request.rejectionReason}</p>
                 )}
-                {request.status === "Cancelled" && (
+                {request.status === "Cancelled" && request.cancellationReason !== null && (
                     <p>Cancellation Reason: {request.cancellationReason}</p>
                 )}
 
                 {request.status === "Draft" && (
-                    <button onClick={handleSubmitRequest}>Submit Request</button>
+                    <Button onClick={handleSubmitRequest}>Submit Request</Button>
                 )}
 
                 {(request.status === "Draft" || request.status === "Pending" || request.status === "Approved") && (
-                    <button onClick={handleCancelClick}>Cancel Request</button>
+                    <Button variant="secondary" onClick={handleCancelClick}>Cancel Request</Button>
                 )}
 
                 <Modal isOpen={showCancelReason} onClose={() => setShowCancelReason(false)}>
-                    <label htmlFor="cancellationReason">Reason for cancellation:</label>
-                    <textarea
-                        id="cancellationReason"
-                        value={cancellationReason}
-                        onChange={(e) => setCancellationReason(e.target.value)}
-                    />
-                    <button onClick={handleConfirmCancel}>Confirm Cancellation</button>
+                    <div className="modal-content">
+                        <h2>Cancel Approved Leave</h2>
+                        <p>This leave was already approved. Please explain why it's being cancelled.</p>
+
+                        <div className="form-group">
+                            <label htmlFor="cancellationReason">Reason for cancellation:</label>
+                            <textarea
+                                id="cancellationReason"
+                                value={cancellationReason}
+                                onChange={(e) => setCancellationReason(e.target.value)}
+                            />
+                        </div>
+                        <div className="modal-actions">
+                            <Button variant="danger" onClick={handleConfirmCancel}>Confirm Cancellation</Button>
+                        </div>
+                    </div>
                 </Modal>
             </div>
         )
@@ -133,32 +144,43 @@ const LeaveRequestDetails = (props) => {
                     <p>Half Day Date: {formatDate(request.halfDayDate)}</p>
                 )}
                 <p>Total Days: {request.totalDays}</p>
-                <p>Reason: {request.reason}</p>
+                {request.reason && <p>Reason: {request.reason}</p>}
                 <p>Status: {request.status}</p>
 
                 {request.balanceAtRequest !== null && (
                     <p>Balance At Request: {request.balanceAtRequest}</p>
                 )}
-                {request.status === "Rejected" && (
+                {request.status === "Rejected" && request.rejectionReason !== null && (
                     <p>Rejection Reason: {request.rejectionReason}</p>
                 )}
-                {request.status === "Cancelled" && (
+                {request.status === "Cancelled" && request.cancellationReason !== null && (
                     <p>Cancellation Reason: {request.cancellationReason}</p>
                 )}
 
                 {request.status === "Pending" && (
                     <div>
-                        <button onClick={handleApprove}>Approve</button>
-                        <button onClick={handleRejectClick}>Reject</button>
+                        <div className="actions">
+                            <Button variant="success" onClick={handleApprove}>Approve</Button>
+                            <Button variant="danger" onClick={handleRejectClick}>Reject</Button>
+                        </div>
 
                         <Modal isOpen={showRejectReason} onClose={() => setShowRejectReason(false)}>
-                            <label htmlFor="rejectionReason">Reason for rejection:</label>
-                            <textarea
-                                id="rejectionReason"
-                                value={rejectionReason}
-                                onChange={(e) => setRejectionReason(e.target.value)}
-                            />
-                            <button onClick={handleConfirmReject}>Confirm Rejection</button>
+                            <div className="modal-content">
+                                <h2>Reject Leave Request</h2>
+                                <p>This will notify the employee. Please explain why this request is being rejected.</p>
+
+                                <div className="form-group">
+                                    <label htmlFor="rejectionReason">Reason for rejection:</label>
+                                    <textarea
+                                        id="rejectionReason"
+                                        value={rejectionReason}
+                                        onChange={(e) => setRejectionReason(e.target.value)}
+                                    />
+                                </div>
+                                <div className="modal-actions">
+                                    <Button variant="danger" onClick={handleConfirmReject}>Confirm Rejection</Button>
+                                </div>
+                            </div>
                         </Modal>
                     </div>
                 )}

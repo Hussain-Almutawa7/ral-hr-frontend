@@ -1,3 +1,21 @@
 .rbc-time-content {
     display: none;
 }
+
+.rbc-agenda-table {
+    color: var(--color-ink);
+}
+
+.rbc-agenda-table thead {
+    background-color: var(--color-ink);
+    color: white;
+}
+
+.rbc-agenda-event-cell {
+    color: white;
+}
+
+.rbc-agenda-date-cell,
+.rbc-agenda-time-cell {
+    color: white;
+}

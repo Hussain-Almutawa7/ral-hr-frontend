@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import * as leaveRequestService from '../../services/leaveRequestService'
 import formatDate from "../../utils/formatDate"
 import StatusBadge from "../../components/common/StatusBadge"
+import Button from "../../components/common/Button";
 
 const MyLeave = (props) => {
     const [leaveRequests, setLeaveRequests] = useState([])
@@ -23,7 +24,9 @@ const MyLeave = (props) => {
     return (
         <div>
             <h1>My Leave</h1>
-            <button onClick={() => navigate(`/leave/new`)}>Request a Leave</button>
+            <div className="actions page-actions">
+                <Button variant="primary" onClick={() => navigate(`/leave/new`)}>Request a Leave</Button>
+            </div>
             <table>
                 <thead>
                     <tr>

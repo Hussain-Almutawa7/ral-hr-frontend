@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import * as leaveAllocationService from "../../services/leaveAllocationService"
 import * as leaveTypeService from "../../services/leaveTypeService"
 import * as employeeService from "../../services/employeeService"
+import Button from "../../components/common/Button";
 
 const initialState = {
     employee: "",
@@ -113,7 +114,7 @@ const LeaveAllocationForm = (props) => {
                     </>
                 )}
 
-                <button type="submit">Submit</button>
+                <Button type="submit">Submit</Button>
             </form>
         </main>
     )
