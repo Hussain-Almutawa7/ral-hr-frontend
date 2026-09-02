@@ -1,18 +1,27 @@
 import { Link } from "react-router";
-import Button from "../components/common/Button";
+import logo from "../assets/branding/RAL-logo-white-transparent.png";
 
 function Landing() {
     return (
-        <div className="landing-page">
-            <div className="card">
-                <h1>Welcome to RAL Technologies!</h1>
-                <p>Sign in to see your dashboard.</p>
+        <main className="landing-page">
+            <div className="landing-card">
+                <div className="landing-logo">
+                    <img src={logo} alt="RAL Technologies" />
+                </div>
 
-                <Link to="/sign-in">
-                    <Button variant="secondary" onClick={() => navigate("/sign-in")}>Sign in</Button>
-                </Link>
+                <div className="landing-content">
+                    <h1>Welcome to RAL HR</h1>
+
+                    <p>
+                        Manage your attendance, leave, documents, and employee information in one place.
+                    </p>
+
+                    <Link className="landing-signin" to="/sign-in">
+                        Sign In
+                    </Link>
+                </div>
             </div>
-        </div>
+        </main>
     )
 }
 

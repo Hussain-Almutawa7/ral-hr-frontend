@@ -364,6 +364,38 @@ form select {
     }
 }
 
+/* FILE INPUT */
+
+form input[type="file"] {
+    padding: 6px;
+    cursor: pointer;
+}
+
+form input[type="file"]::file-selector-button {
+    border: none;
+    border-radius: var(--border-radius);
+
+    padding: 8px 14px;
+    margin-right: 12px;
+
+    background-color: var(--color-lavender);
+    color: var(--color-ink);
+
+    font: inherit;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+form input[type="file"]::file-selector-button:hover {
+    background-color: #B9A8D3;
+    box-shadow: 0 2px 6px rgba(43, 27, 61, 0.12);
+}
+
 /* TABLES */
 table {
     width: 100%;
@@ -565,6 +597,119 @@ td .actions {
     }
 }
 
+/* LANDING */
+.landing-page {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 32px;
+
+    background-color: var(--color-background);
+}
+
+.landing-card {
+    width: 100%;
+    max-width: 760px;
+
+    display: grid;
+    grid-template-columns: 240px 1fr;
+
+    overflow: hidden;
+
+    background-color: var(--color-white);
+
+    border: 1px solid var(--color-rule);
+    border-radius: 16px;
+
+    box-shadow: 0 12px 32px rgba(43, 27, 61, 0.12);
+}
+
+.landing-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 48px 30px;
+
+    background-color: var(--color-ink);
+}
+
+.landing-logo img {
+    width: 150px;
+}
+
+.landing-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    padding: 48px;
+}
+
+.landing-content h1 {
+    margin: 0 0 12px;
+
+    color: var(--color-ink);
+    font-size: 32px;
+}
+
+.landing-content p {
+    max-width: 420px;
+
+    margin: 0 0 28px;
+
+    color: var(--color-soft);
+    line-height: 1.6;
+}
+
+.landing-signin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 11px 22px;
+
+    background-color: var(--color-ink);
+    color: var(--color-white);
+
+    border-radius: var(--border-radius);
+
+    font-weight: 600;
+
+    transition:
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.landing-signin:hover {
+    background-color: #21132F;
+    box-shadow: 0 2px 6px rgba(43, 27, 61, 0.12);
+}
+
+@media (max-width: 650px) {
+    .landing-card {
+        grid-template-columns: 1fr;
+    }
+
+    .landing-logo {
+        padding: 32px;
+    }
+
+    .landing-logo img {
+        width: 120px;
+    }
+
+    .landing-content {
+        padding: 32px;
+        align-items: center;
+        text-align: center;
+    }
+}
+
 /* CONTAINER */
 .container {
     display: flex;
@@ -575,23 +720,4 @@ td .actions {
 
 .read-btn {
     width: 10rem;
-}
-
-/* LANDING */
-.landing-page {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15rem;
-    background-color: var(--color-background);
-}
-
-.landing-page .card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 12px;
-    padding: 32px;
 }
