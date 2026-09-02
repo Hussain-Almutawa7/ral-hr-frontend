@@ -6,7 +6,7 @@ const Sidebar = ({ user }) => {
     const isHR = ["HR Officer", "HR Manager"].includes(user.role);
     const isHRManager = user.role === "HR Manager";
     const isOperationalRole = ["Employee", "Manager", "HR Officer", "HR Manager"].includes(user.role);
-    const isManager = user.role === "Manager";
+    const canManageTeam = ["Manager", "HR Manager"].includes(user.role);
 
     return (
         <aside className="sidebar">
@@ -15,18 +15,27 @@ const Sidebar = ({ user }) => {
             </div>
 
             <nav className="sidebar-nav">
+
                 <NavLink to="/" end className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
                     Dashboard
                 </NavLink>
 
+
                 {isHR && (
-                    <NavLink to="/employees" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                        Employees
-                    </NavLink>
+                    <div className="sidebar-section">
+                        <p className="sidebar-section-title">People</p>
+
+                        <NavLink to="/employees" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                            Employees
+                        </NavLink>
+                    </div>
                 )}
 
+
                 {isOperationalRole && (
-                    <>
+                    <div className="sidebar-section">
+                        <p className="sidebar-section-title">Attendance</p>
+
                         <NavLink to="/attendance" end className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
                             My Attendance
                         </NavLink>
@@ -35,63 +44,109 @@ const Sidebar = ({ user }) => {
                             Check In / Out
                         </NavLink>
 
-                        {isManager && (
-                            <>
-                                <NavLink to="/attendance/team" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                                    Team Attendance
-                                </NavLink>
-
-                                <NavLink to="/attendance/corrections" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                                    Attendance Corrections
-                                </NavLink>
-                            </>
+                        {canManageTeam && (
+                            <NavLink to="/attendance/team" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                                Team Attendance
+                            </NavLink>
                         )}
 
                         {isHR && (
-                            <>
-                                <NavLink to="/attendance/manage" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                                    Attendance Management
-                                </NavLink>
-
-                                <NavLink to="/attendance/corrections" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                                    Attendance Corrections
-                                </NavLink>
-                            </>
-
+                            <NavLink to="/attendance/manage" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                                Attendance Management
+                            </NavLink>
                         )}
+
+                        {(user.role === "Manager" || isHR) && (
+                            <NavLink to="/attendance/corrections" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                                Attendance Corrections
+                            </NavLink>
+                        )}
+                    </div>
+                )}
+
+
+                {isOperationalRole && (
+                    <div className="sidebar-section">
+                        <p className="sidebar-section-title">Leave</p>
 
                         <NavLink to="/leave" end className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
                             My Leave
                         </NavLink>
 
+                        <NavLink to="/leave/calendar" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                            Leave Calendar
+                        </NavLink>
+
                         {isHR && (
-                            <NavLink to="/leave/manage" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                                Leave Management
-                            </NavLink>
+                            <>
+                                <NavLink to="/leave/manage" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                                    Leave Management
+                                </NavLink>
+
+                                <NavLink to="/leave/allocations" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                                    Leave Allocations
+                                </NavLink>
+                            </>
                         )}
+                    </div>
+                )}
+
+
+                {isOperationalRole && (
+                    <div className="sidebar-section">
+                        <p className="sidebar-section-title">Documents</p>
 
                         <NavLink to="/documents" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
                             Documents
                         </NavLink>
-                    </>
+                    </div>
                 )}
+
 
                 {isHR && (
-                    <NavLink to="/settings" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                        Settings
-                    </NavLink>
-                )}
+                    <div className="sidebar-section">
+                        <p className="sidebar-section-title">Settings</p>
 
-                {isHRManager && (
-                    <>
-                        <NavLink to="/users" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                            User Management
+                        <NavLink to="/settings/company" className={({ isActive }) => `sidebar-link sidebar-sub-link ${isActive ? "active" : ""}`}>
+                            Company
                         </NavLink>
 
-                        <NavLink to="/audit-logs" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
-                            Audit Logs
+                        <NavLink to="/settings/departments" className={({ isActive }) => `sidebar-link sidebar-sub-link ${isActive ? "active" : ""}`}>
+                            Departments
                         </NavLink>
-                    </>
+
+                        <NavLink to="/settings/designations" className={({ isActive }) => `sidebar-link sidebar-sub-link ${isActive ? "active" : ""}`}>
+                            Designations
+                        </NavLink>
+
+                        <NavLink to="/settings/banks" className={({ isActive }) => `sidebar-link sidebar-sub-link ${isActive ? "active" : ""}`}>
+                            Banks
+                        </NavLink>
+
+                        <NavLink to="/leave/types" className={({ isActive }) => `sidebar-link sidebar-sub-link ${isActive ? "active" : ""}`}>
+                            Leave Types
+                        </NavLink>
+
+                        <NavLink to="/settings/document-types" className={({ isActive }) => `sidebar-link sidebar-sub-link ${isActive ? "active" : ""}`}>
+                            Document Types
+                        </NavLink>
+
+                        <NavLink to="/settings/shift-types" className={({ isActive }) => `sidebar-link sidebar-sub-link ${isActive ? "active" : ""}`}>
+                            Shift Types
+                        </NavLink>
+
+                        <NavLink to="/settings/shift-assignments" className={({ isActive }) => `sidebar-link sidebar-sub-link ${isActive ? "active" : ""}`}>
+                            Shift Assignments
+                        </NavLink>
+
+                        <NavLink to="/settings/holiday-lists" className={({ isActive }) => `sidebar-link sidebar-sub-link ${isActive ? "active" : ""}`}>
+                            Holiday Lists
+                        </NavLink>
+
+                        <NavLink to="/settings/holidays" className={({ isActive }) => `sidebar-link sidebar-sub-link ${isActive ? "active" : ""}`}>
+                            Holidays
+                        </NavLink>
+                    </div>
                 )}
 
             </nav>
