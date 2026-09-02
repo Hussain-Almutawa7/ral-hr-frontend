@@ -3,6 +3,8 @@ import { useNavigate } from "react-router";
 import * as leaveTypeService from "../../services/leaveTypeService"
 import * as leaveRequestService from "../../services/leaveRequestService"
 import * as leaveAllocationService from "../../services/leaveAllocationService"
+import * as documentService from "../../services/documentService";
+
 import Button from "../../components/common/Button";
 import Message from "../../components/common/Message";
 
@@ -20,7 +22,11 @@ const LeaveRequestForm = (props) => {
     const [leaveTypes, setLeaveTypes] = useState([])
     const [allocations, setAllocations] = useState([])
     const [selectedFile, setSelectedFile] = useState(null)
-    const [error, setError] = useState('')
+
+    const [error, setError] = useState("");
+    const [message, setMessage] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -54,13 +60,37 @@ const LeaveRequestForm = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setError("");
+
         try {
-            const newRequest = await leaveRequestService.create(formData);
-            navigate("/leave")
-            setFormData(initialState)
+            const data = new FormData();
+
+            data.append("leaveType", formData.leaveType);
+            data.append("fromDate", formData.fromDate);
+            data.append("toDate", formData.toDate);
+            data.append("isHalfDay", formData.isHalfDay);
+
+            if (formData.isHalfDay && formData.halfDayDate) {
+                data.append("halfDayDate", formData.halfDayDate);
+            }
+
+            if (formData.reason) {
+                data.append("reason", formData.reason);
+            }
+
+            if (selectedFile) {
+                data.append("file", selectedFile);
+            }
+
+            const newRequest = await leaveRequestService.create(data);
+
+            navigate("/leave");
+            setFormData(initialState);
+            setSelectedFile(null);
         } catch (e) {
-            setError(e.message)
+            setError(e.message);
         }
+
     }
 
     return (
@@ -100,8 +130,10 @@ const LeaveRequestForm = (props) => {
                     onChange={handleChange}
                 />
 
-                <label htmlFor="isHalfDay">Is Half Day?</label>
-                <input type="checkbox" id="isHalfDay" name="isHalfDay" onChange={handleChange} checked={!!formData.isHalfDay} />
+                <div className="checkbox-label">
+                    <label htmlFor="isHalfDay">Is Half Day?</label>
+                    <input type="checkbox" id="isHalfDay" name="isHalfDay" onChange={handleChange} checked={!!formData.isHalfDay} />
+                </div>
 
                 <label htmlFor="halfDayDate">Half Day Date</label>
                 <input

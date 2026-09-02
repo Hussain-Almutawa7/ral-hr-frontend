@@ -20,6 +20,7 @@ const LeaveRequestDetails = (props) => {
     const [rejectionReason, setRejectionReason] = useState('')
 
     const [error, setError] = useState('')
+    const [actionLoading, setActionLoading] = useState(null)
 
     useEffect(() => {
         const fetchRequest = async () => {
@@ -82,6 +83,19 @@ const LeaveRequestDetails = (props) => {
         }
     }
 
+    const handleDownloadDocument = async (request) => {
+        try {
+            setActionLoading(request._id)
+            setError('')
+            await leaveRequestService.downloadRequestDocument(request._id, "leave-document")
+        } catch (e) {
+            setError(e.message)
+        }
+        finally {
+            setActionLoading(null)
+        }
+    }
+
     if (!request) {
         return <LoadingSpinner>Loading...</LoadingSpinner>
     }
@@ -135,6 +149,20 @@ const LeaveRequestDetails = (props) => {
                             <tr>
                                 <th>Cancellation Reason</th>
                                 <td>{request.cancellationReason}</td>
+                            </tr>
+                        )}
+                        {request.documentFileId && (
+                            <tr>
+                                <th>Supporting Document</th>
+                                <td>
+                                    <Button
+                                        variant="secondary"
+                                        onClick={() => handleDownloadDocument(request)}
+                                        disabled={actionLoading === request._id}
+                                    >
+                                        Download
+                                    </Button>
+                                </td>
                             </tr>
                         )}
                     </tbody>
@@ -231,6 +259,20 @@ const LeaveRequestDetails = (props) => {
                             <tr>
                                 <th>Cancellation Reason</th>
                                 <td>{request.cancellationReason}</td>
+                            </tr>
+                        )}
+                        {request.documentFileId && (
+                            <tr>
+                                <th>Supporting Document</th>
+                                <td>
+                                    <Button
+                                        variant="secondary"
+                                        onClick={() => handleDownloadDocument(request)}
+                                        disabled={actionLoading === request._id}
+                                    >
+                                        Download
+                                    </Button>
+                                </td>
                             </tr>
                         )}
                     </tbody>
