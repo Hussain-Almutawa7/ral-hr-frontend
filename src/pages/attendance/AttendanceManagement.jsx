@@ -13,6 +13,10 @@ const AttendanceManagement = () => {
     const [attendances, setAttendances] = useState([]);
     const [date, setDate] = useState("");
 
+    const [search, setSearch] = useState("");
+    const [filterDate, setFilterDate] = useState("");
+    const [statusFilter, setStatusFilter] = useState("");
+
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
 
@@ -57,6 +61,14 @@ const AttendanceManagement = () => {
         }
     }
 
+    const filteredAttendances = attendances.filter(attendance => {
+        const matchesSearch = attendance.employee?.nameEn?.toLowerCase().includes(search.toLocaleLowerCase());
+        const matchesDate = filterDate === "" || new Date(attendance.date).toISOString().split("T")[0] === filterDate;
+        const matchsStatus = statusFilter === "" || attendance.status === statusFilter;
+
+        return matchesSearch && matchesDate && matchsStatus;
+    });
+
     if (isLoading) return <LoadingSpinner message="Loading attendance..." />
 
     return (
@@ -77,8 +89,37 @@ const AttendanceManagement = () => {
                 </Button>
             </div>
 
-            {attendances.length === 0 ? (
-                <p>No attendance records found.</p>
+            <div className="filters">
+                <div className="filter-field">
+                    <label htmlFor="attendanceSearch">Employee</label>
+                    <input id="attendanceSearch" type="text" placeholder="Search employee" value={search} onChange={e => setSearch(e.target.value)} />
+                </div>
+
+                <div className="filter-field">
+                    <label htmlFor="filterDate">Date</label>
+                    <input id="filterDate" type="date" value={filterDate} onChange={e => setFilterDate(e.target.value)} />
+                </div>
+
+                <div className="filter-field">
+                    <label htmlFor="statusFilter">Status</label>
+                    <select id="statusFilter" value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+                        <option value="">All Statuses</option>
+                        <option value="Present">Present</option>
+                        <option value="Absent">Absent</option>
+                        <option value="Half Day">Half Day</option>
+                        <option value="On Leave">On Leave</option>
+                        <option value="Holiday">Holiday</option>
+                        <option value="Weekly Off">Weekly Off</option>
+                    </select>
+                </div>
+
+                <Button variant="secondary" onClick={() => { setSearch(""); setFilterDate(""); setStatusFilter(""); }}>
+                    Clear Filters
+                </Button>
+            </div>
+
+            {filteredAttendances.length === 0 ? (
+                <p>No attendance records match the selected filters.</p>
             ) : (
                 <table>
                     <thead>
@@ -99,7 +140,7 @@ const AttendanceManagement = () => {
                     </thead>
 
                     <tbody>
-                        {attendances.map(attendance => (
+                        {filteredAttendances.map(attendance => (
                             <tr key={attendance._id}>
                                 <td>{attendance.employee?.nameEn || "-"}</td>
                                 <td>{formatDate(attendance.date)}</td>
