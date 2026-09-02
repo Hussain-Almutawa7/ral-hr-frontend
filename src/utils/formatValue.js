@@ -1,11 +1,11 @@
-const formatValue = (value) => {
-    if (value === null || value === undefined) {
-        return "-"
-    }
+const formatValue = value => {
+    if (value === null || value === undefined || value === "" || value === "null") return "-";
+
     if (typeof value === "boolean") {
-        return value ? "true" : "false"
+        return value ? "true" : "false";
     }
-    return value
+
+    return value;
 }
 
-export default formatValue
+export default formatValue;
