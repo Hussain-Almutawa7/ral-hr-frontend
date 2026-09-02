@@ -7,7 +7,7 @@ const index = async () => {
         })
         return res.json()
     } catch (error) {
-        console.log(error)
+        throw Error(error.message)
     }
 }
 
@@ -25,7 +25,7 @@ const create = async (leaveAllocationFormData) => {
 
         return data
     } catch (error) {
-        console.log(error)
+        throw Error(error.message)
     }
 }
 
@@ -43,7 +43,7 @@ const update = async (leaveAllocationId, updatedLeaveAllocation) => {
 
         return data
     } catch (error) {
-        console.log(error)
+        throw Error(error.message)
     }
 }
 

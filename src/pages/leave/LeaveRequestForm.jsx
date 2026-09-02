@@ -17,6 +17,8 @@ const LeaveRequestForm = (props) => {
     const [formData, setFormData] = useState(initialState)
     const [leaveTypes, setLeaveTypes] = useState([])
     const [allocations, setAllocations] = useState([])
+    const [selectedFile, setSelectedFile] = useState(null)
+    const [error, setError] = useState('')
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -50,15 +52,20 @@ const LeaveRequestForm = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const newRequest = await leaveRequestService.create(formData);
-        navigate("/leave")
-        setFormData(initialState)
+        try {
+            const newRequest = await leaveRequestService.create(formData);
+            navigate("/leave")
+            setFormData(initialState)
+        } catch (e) {
+            setError(e.message)
+        }
     }
 
     return (
         <main>
             <h1>Add a Request</h1>
             <form onSubmit={handleSubmit}>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
                 <select name="leaveType" id="leaveType" required value={formData.leaveType} onChange={handleChange}>
                     <option value="">Select a leave type</option>
                     {leaveTypes.map((type) => {
@@ -101,6 +108,14 @@ const LeaveRequestForm = (props) => {
                     value={formData.halfDayDate}
                     id="halfDayDate"
                     onChange={handleChange}
+                />
+
+                <label htmlFor="document">Supporting Document</label>
+                <input
+                    type="file"
+                    name="document"
+                    id="document"
+                    onChange={(e) => setSelectedFile(e.target.files[0])}
                 />
 
                 <label htmlFor="reason">Reason</label>

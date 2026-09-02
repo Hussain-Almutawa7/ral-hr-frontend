@@ -7,7 +7,7 @@ const index = async () => {
         })
         return res.json()
     } catch (error) {
-        console.log(error)
+        throw Error(error.message)
     }
 }
 
@@ -18,7 +18,7 @@ const show = async (leaveRequestId) => {
         })
         return res.json()
     } catch (error) {
-        console.log(error)
+        throw Error(error.message)
     }
 }
 
@@ -36,7 +36,7 @@ const create = async (leaveRequestFormData) => {
 
         return data
     } catch (error) {
-        console.log(error)
+        throw Error(error.message)
     }
 }
 
@@ -52,7 +52,7 @@ const submit = async (leaveRequestId) => {
 
         return data
     } catch (error) {
-        console.log(error)
+        throw Error(error.message)
     }
 }
 
@@ -70,7 +70,7 @@ const review = async (leaveRequestId, leaveRequestFormData) => {
 
         return data
     } catch (error) {
-        console.log(error)
+        throw Error(error.message)
     }
 }
 
@@ -88,7 +88,7 @@ const cancel = async (leaveRequestId, leaveRequestFormData) => {
 
         return data
     } catch (error) {
-        console.log(error)
+        throw Error(error.message)
     }
 }
 
@@ -99,7 +99,7 @@ const calendar = async () => {
         })
         return res.json()
     } catch (error) {
-        console.log(error)
+        throw Error(error.message)
     }
 }
 
