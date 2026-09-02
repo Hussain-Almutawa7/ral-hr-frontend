@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { getAllShiftAssignments, createShiftAssignment, updateShiftAssignment, getAllEmployees, getAllShiftTypes } from "../../services/settingsService";
+import { getAllShiftAssignments, createShiftAssignment, updateShiftAssignment, getAllShiftTypes } from "../../services/settingsService";
+import { getAllEmployees } from "../../services/employeeService";
 
 import Button from "../../components/common/Button";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
