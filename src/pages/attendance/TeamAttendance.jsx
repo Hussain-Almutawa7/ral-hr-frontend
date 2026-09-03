@@ -86,10 +86,10 @@ const TeamAttendance = () => {
             };
 
             if (correctionForm.requestedInTime)
-                correctionData.requestedInTime = new Date(correctionForm.requestedInTime).toISOString();
+                correctionData.requestedInTime = correctionForm.requestedInTime;
 
             if (correctionForm.requestedOutTime)
-                correctionData.requestedOutTime = new Date(correctionForm.requestedOutTime).toISOString();
+                correctionData.requestedOutTime = correctionForm.requestedOutTime;
 
             if (correctionForm.requestedStatus)
                 correctionData.requestedStatus = correctionForm.requestedStatus;
@@ -99,6 +99,7 @@ const TeamAttendance = () => {
             setMessage("Correction requested successfully.")
             setSelectedAttendance(null);
 
+            await loadTeamAttendance();
         } catch (e) {
             setError(e.message);
         }
@@ -145,17 +146,18 @@ const TeamAttendance = () => {
 
                                 <td>{formatTime(attendance.inTime)}</td>
                                 <td>{formatTime(attendance.outTime)}</td>
-                                <td>{attendance.workedHours}</td>
+                                <td>{attendance.workedHours?.toFixed(2)}</td>
                                 <td>{attendance.isLateEntry ? "Yes" : "No"}</td>
                                 <td>{attendance.isEarlyExit ? "Yes" : "No"}</td>
-                                <td>{attendance.overtimeHours}</td>
+                                <td>{attendance.overtimeHours.toFixed(2)}</td>
 
                                 <td>
                                     <StatusBadge status={attendance.overtimeStatus} />
                                 </td>
                                 <td>
                                     {attendance.overtimeHours > 0 &&
-                                        attendance.overtimeStatus === "Pending" && (
+                                        attendance.overtimeStatus === "Pending" &&
+                                        !attendance.hasOpenCorrection && (
                                             <div className="actions">
                                                 <Button
                                                     variant="success"
@@ -198,12 +200,12 @@ const TeamAttendance = () => {
 
                     <label>
                         Requested In Time
-                        <input type="datetime-local" name="requestedInTime" value={correctionForm.requestedInTime} onChange={handleChange} />
+                        <input type="time" name="requestedInTime" value={correctionForm.requestedInTime} onChange={handleChange} />
                     </label>
 
                     <label>
                         Requested Out Time
-                        <input type="datetime-local" name="requestedOutTime" value={correctionForm.requestedOutTime} onChange={handleChange} />
+                        <input type="time" name="requestedOutTime" value={correctionForm.requestedOutTime} onChange={handleChange} />
                     </label>
 
                     <label>
