@@ -79,7 +79,7 @@ const LeaveRequestForm = (props) => {
             }
 
             if (selectedFile) {
-                data.append("file", selectedFile);
+                data.append("document", selectedFile);
             }
 
             const newRequest = await leaveRequestService.create(data);
