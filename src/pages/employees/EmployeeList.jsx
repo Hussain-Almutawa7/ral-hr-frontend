@@ -13,6 +13,10 @@ const EmployeeList = () => {
 
     const [employees, setEmployees] = useState([]);
 
+    const [search, setSearch] = useState("");
+    const [departmentFilter, setDepartmentFilter] = useState("");
+    const [statusFilter, setStatusFilter] = useState("");
+
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(true);
 
@@ -33,6 +37,16 @@ const EmployeeList = () => {
         loadEmployees();
     }, []);
 
+    const departments = [...new Map(employees.filter(employee => employee.department).map(employee => [employee.department._id, employee.department])).values()];
+
+    const filteredEmployees = employees.filter(employee => {
+        const matchesSearch = search === "" || employee.nameEn?.toLowerCase().includes(search.toLowerCase()) || employee.employeeCode?.toLowerCase().includes(search.toLowerCase());
+        const matchesDepartment = departmentFilter === "" || employee.department?._id === departmentFilter;
+        const matchesStatus = statusFilter === "" || employee.status === statusFilter;
+
+        return matchesSearch && matchesDepartment && matchesStatus;
+    });
+
     if (isLoading) return <LoadingSpinner message="Loading employees..." />
 
     return (
@@ -47,8 +61,44 @@ const EmployeeList = () => {
                 </Button>
             </div>
 
-            {employees.length === 0 ? (
-                <p>No employees found</p>
+            <div className="filters">
+                <div className="filter-field">
+                    <label htmlFor="employeeSearch">Employee</label>
+                    <input id="employeeSearch" type="text" placeholder="Name or employee code" value={search} onChange={e => setSearch(e.target.value)} />
+                </div>
+
+                <div className="filter-field">
+                    <label htmlFor="departmentFilter">Department</label>
+                    <select id="departmentFilter" value={departmentFilter} onChange={e => setDepartmentFilter(e.target.value)}>
+                        <option value="">All Departments</option>
+
+                        {departments.map(department => (
+                            <option key={department._id} value={department._id}>
+                                {department.nameEn}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="filter-field">
+                    <label htmlFor="statusFilter">Status</label>
+
+                    <select id="statusFilter" value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+                        <option value="">All Statuses</option>
+                        <option value="Active">Active</option>
+                        <option value="On Leave">On Leave</option>
+                        <option value="Suspended">Suspended</option>
+                        <option value="Left">Left</option>
+                    </select>
+                </div>
+
+                <Button variant="secondary" onClick={() => { setSearch(""); setDepartmentFilter(""); setStatusFilter(""); }}>
+                    Clear Filters
+                </Button>
+            </div>
+
+            {filteredEmployees.length === 0 ? (
+                <p>No employees match the selected filters.</p>
             ) : (
                 <div className="table-container">
                     <table>
@@ -66,7 +116,7 @@ const EmployeeList = () => {
                         </thead>
 
                         <tbody>
-                            {employees.map(employee => (
+                            {filteredEmployees.map(employee => (
                                 <tr key={employee._id}>
                                     <td>{employee.employeeCode}</td>
                                     <td>{employee.nameEn}</td>

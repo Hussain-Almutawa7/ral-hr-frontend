@@ -44,7 +44,7 @@ const AuditLogs = () => {
     }
 
     const filteredAuditLogs = auditLogs.filter(log => {
-        const matchesSearch = log.changedBy?.email?.toLowerCase().includes(search.toLocaleLowerCase());
+        const matchesSearch = log.changedBy?.email?.toLowerCase().includes(search.toLowerCase());
         const matchesTable = tableFilter === "" || log.tableName === tableFilter;
         const matchesAction = actionFilter === "" || log.action === actionFilter;
 
