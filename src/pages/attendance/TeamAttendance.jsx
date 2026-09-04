@@ -177,9 +177,11 @@ const TeamAttendance = () => {
                                             </div>
                                         )}
 
-                                    <Button variant="primary" onClick={() => handleOpenCorrection(attendance)}>
-                                        Request Correction
-                                    </Button>
+                                    {!attendance.hasOpenCorrection && (
+                                        <Button variant="primary" onClick={() => handleOpenCorrection(attendance)}>
+                                            Request Correction
+                                        </Button>
+                                    )}
                                 </td>
                             </tr>
                         ))}

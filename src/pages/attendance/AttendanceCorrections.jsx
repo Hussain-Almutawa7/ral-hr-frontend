@@ -49,7 +49,7 @@ const AttendanceCorrections = ({ user }) => {
 
             await correctAttendance(correctionId);
 
-            setMessage("Attendance corrected successfully");
+            setMessage("Correction reviewed successfully.");
 
             await loadCorrections();
         } catch (e) {
